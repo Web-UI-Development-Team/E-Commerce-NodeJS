@@ -16,30 +16,23 @@
     <il>
         - Authentication Endpoints:
         <ul>
-            <il>/api/v1/register (POST): Register a new user.</il>
-            <il>/api/v1/login (POST): Authenticate a user and generate a token.</il>
+            <il>/api/v1/register (POST): Register a new user.<br></il>
+            <il>/api/v1/login (POST): Authenticate a user and generate a token.<br></il>
         </ul>
     </il>
     <il>
         - User Profile Endpoints:
         <ul>
-            <il>/api/v1/profile (GET): Get current user's profile.</il>
-            <il>/api/v1/profile (PATCH): Update current user's profile.</il>
+            <il>/api/v1/profile (GET): Get current user's profile.<br></il>
+            <il>/api/v1/profile (PATCH): Update current user's profile.<br></il>
         </ul>
     </il>
     <il>
         - Product Endpoints:
         <ul>
-            <il>/api/v1/products (GET): Get a list of products.</il>
-            <il>/api/v1/products/:id (GET): Get details of a specific product.</il>
-            <il>/api/v1/products (POST): Create a new product (admin only).</il>
-        </ul>
-    </il>
-    <il>
-        1- Authentication Endpoints:
-        <ul>
-            <il>/api/v1/register (POST): Register a new user</il>
-            <il>/api/v1/login (POST): Authenticate a user and generate a token.</il>
+            <il>/api/v1/products (GET): Get a list of products.<br></il>
+            <il>/api/v1/products/:id (GET): Get details of a specific product.<br></il>
+            <il>/api/v1/products (POST): Create a new product (admin only).<br></il>
         </ul>
     </il>
 </ul>
