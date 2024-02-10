@@ -16,34 +16,19 @@
 
 <ul>
     <il>
-        - Authentication Endpoints: Nadine <br>
+        - Waleed: Product & Admin Endpoints <br>
     </il>
     <il>
-        - User Profile Endpoints: Nadine <br>
+        - Yasmen: Payment, Search and Filter Endpoints<br>
     </il>
     <il>
-        - Product Endpoints: Waleed <br>
+        - Mariam: Shopping Cart, Order Endpoints<br>
     </il>
     <il>
-        - Shopping Cart Endpoints: Mariam <br>
+        - Esraa: Reviews, Ratings & Category Endpoints<br>
     </il>
     <il>
-        - Order Endpoints: Mariam <br>
-    </il>
-    <il>
-        - Payment Endpoints: Yasmina <br>
-    </il>
-    <il>
-        - Search and Filter Endpoints: Yasmina <br>
-    </il>
-    <il>
-        - Reviews and Ratings Endpoints: Esraa <br>
-    </il>
-    <il>
-        - Category Endpoints: Esraa <br>
-    </il>
-    <il>
-        - Admin Endpoints: Waleed <br>
+        - Nadine: Authentication & User Profile Endpoints<br>
     </il>
 </ul>
 
