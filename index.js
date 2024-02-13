@@ -1,11 +1,11 @@
-require('dotenv').config();
+require('dotenv').config(); 
 require('./db');
 
 const express = require("express");
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json()); 
 
 const port = parseInt(process.env.PORT);
 
