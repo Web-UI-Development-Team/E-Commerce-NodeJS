@@ -1,19 +1,17 @@
 const User = require("../models/user.model");
 const jwt = require('jsonwebtoken');
 
-const returnError = (arg) => {
-    if(!arg) return res.status(401).send({message:"permission denied"});
-}
-
 const admin = async (req, res, next) =>{
     try{
-        const token = sessionStorage.getItem('token');
+        const token = req.headers["jwt"];
         
-        returnError(token);
+        if(!token) return res.status(401).send({message:"permission denied"});
         
         const payload = jwt.verify(token,"myjwtsecret");
+        
+        const user = await User.findOne({ email: payload.email });
 
-        returnError(payload.isAdmin);
+        if(!user.isAdmin) return res.status(401).send({message:"permission denied"});
 
         next();
     }
