@@ -1,17 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const admin = require('../middleware/admin');
 
 const controllers = require('../controllers/admin.controller');
 
-router.get("/users", controllers.getAllProducts);
+router.get("/users", controllers.getAllUsers);
 
-router.get("/orders", controllers.getProductById);
+// router.get("/orders", controllers.getAllOrders);
 
-router.get("/products", admin, controllers.createProduct);
+router.get("/products", controllers.getAllProducts);
 
-router.patch("/:id", admin, controllers.updateProduct);
-
-router.delete("/:id", admin, controllers.deleteProduct);
+// router.get("/categories", controllers.getAllCategories);
 
 module.exports = router;

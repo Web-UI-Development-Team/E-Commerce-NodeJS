@@ -9,6 +9,8 @@ app.use(express.json());
 
 const port = parseInt(process.env.PORT);
 
+const userRouter= require("./routes/user.router");
+
 const productRouter = require('./routes/products.router');
 
 
@@ -17,6 +19,13 @@ const stripe = require("./routes/stripe.router");
 //const adminRouter = require('./routes/admin.router');
 
 //const admin = require('./middleware/admin');
+const auth = require('./middleware/auth');
+
+const admin = require('./middleware/admin');
+
+app.use("/api/v1/users",userRouter);
+
+app.use(auth);
 
 app.use('/api/v1/products/', productRouter);
 

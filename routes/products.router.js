@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const admin = require('../middleware/admin')
 
 const controllers = require('../controllers/products.controller');
 
@@ -8,12 +9,11 @@ router.get("/", controllers.getAllProducts);
 router.get("/:id", controllers.getProductById);
 
 router.get("/search/:name/:value", controllers.searchProduct);
+router.post("/", admin, controllers.createProduct);
 
-router.post("/", controllers.createProduct);
+router.patch("/:id", admin, controllers.updateProduct);
 
-router.patch("/:id", controllers.updateProduct);
-
-router.delete("/:id", controllers.deleteProduct);
+router.delete("/:id", admin, controllers.deleteProduct);
 
 router.get("/filter/items",controllers.filteredProducts);
 
