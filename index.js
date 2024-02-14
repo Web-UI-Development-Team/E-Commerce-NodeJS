@@ -13,14 +13,20 @@ const productRouter = require('./routes/products.router');
 
 const adminRouter = require('./routes/admin.router');
 
+const categoryRouter = require('./routes/category.router'); 
+
+
 const admin = require('./middleware/admin');
 
 app.use('/api/v1/products/', productRouter);
 
-app.use(admin);
+app.use('/api/categories', categoryRouter); 
+
+app.use(admin);  
 
 app.use('/api/v1/admin/', adminRouter);
 
 app.listen(port, () => {
     console.log(`Connected on port ${port}...`);
 });
+/// 
