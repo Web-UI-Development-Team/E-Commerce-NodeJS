@@ -1,5 +1,5 @@
-// const User = require("../models/user.model");
-// const jwt = require('jsonwebtoken');
+const User = require("../models/user.model");
+const jwt = require('jsonwebtoken');
 
 const admin = async (req, res, next) =>{
     try{
@@ -14,11 +14,11 @@ const admin = async (req, res, next) =>{
         if(!user.isAdmin) return res.status(401).send({message:"permission denied"});
 
 
-//         next();
-//     }
-//     catch(e){
-//         return res.status(401).send({message: e.message});
-//     }
-// }
+        next();
+    }
+    catch(e){
+        return res.status(401).send({message: e.message});
+    }
+}
 
-// module.exports = admin;
+module.exports = admin;
