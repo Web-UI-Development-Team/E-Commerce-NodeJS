@@ -1,25 +1,25 @@
-const User = require("../models/user.model");
-const jwt = require('jsonwebtoken');
+// const User = require("../models/user.model");
+// const jwt = require('jsonwebtoken');
 
-const returnError = (arg) => {
-    if(!arg) return res.status(401).send({message:"permission denied"});
-}
+// const returnError = (arg) => {
+//     if(!arg) return res.status(401).send({message:"permission denied"});
+// }
 
-const admin = async (req, res, next) =>{
-    try{
-        const token = sessionStorage.getItem('token');
+// const admin = async (req, res, next) =>{
+//     try{
+//         const token = sessionStorage.getItem('token');
         
-        returnError(token);
+//         returnError(token);
         
-        const payload = jwt.verify(token,"myjwtsecret");
+//         const payload = jwt.verify(token,"myjwtsecret");
 
-        returnError(payload.isAdmin);
+//         returnError(payload.isAdmin);
 
-        next();
-    }
-    catch(e){
-        return res.status(401).send({message: e.message});
-    }
-}
+//         next();
+//     }
+//     catch(e){
+//         return res.status(401).send({message: e.message});
+//     }
+// }
 
-module.exports = admin;
+// module.exports = admin;

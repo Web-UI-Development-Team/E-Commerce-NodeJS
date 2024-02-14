@@ -1,3 +1,4 @@
+const { name } = require('ejs');
 const Product = require('../models/product.model');
 
 const getAllProductsService = async () => {
@@ -15,6 +16,7 @@ const getProductByIdService = async id => {
         console.log(e);
     }
 }
+
 
 const createNewProductService = async product => {
     try {
@@ -40,10 +42,41 @@ const deleteProductService = async id =>  {
     }
 }
 
+const searchProductServices = async (key,value) =>{
+    console.log(key)
+    console.log(value);
+    let product;
+        if(!key){
+            resizeBy.status(404).send("The Product not found");
+            return;
+        }
+        if(key == 'title'){
+            product = await Product.find({title:value});
+        }
+        if(key == 'brand'){
+            product = await Product.find({brand:value});
+        }
+        return product;
+}
+
+const getfilteredProducts = async (params) =>{
+    if(!params){
+        resizeBy.status(404).send("The Product not found");
+        return;
+    }
+    const products = await Product.find(params);
+    return products;
+}
+
+
+
+
 module.exports = {
     getAllProductsService,
     getProductByIdService,
     createNewProductService,
     updateProductService,
-    deleteProductService
+    deleteProductService,
+    searchProductServices,
+    getfilteredProducts
 }
