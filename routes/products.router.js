@@ -8,10 +8,13 @@ router.get("/", controllers.getAllProducts);
 
 router.get("/:id", controllers.getProductById);
 
+router.get("/search/:name/:value", controllers.searchProduct);
 router.post("/", admin, controllers.createProduct);
 
 router.patch("/:id", admin, controllers.updateProduct);
 
 router.delete("/:id", admin, controllers.deleteProduct);
+
+router.get("/filter/items",controllers.filteredProducts);
 
 module.exports = router;

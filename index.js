@@ -13,8 +13,12 @@ const userRouter= require("./routes/user.router");
 
 const productRouter = require('./routes/products.router');
 
-const adminRouter = require('./routes/admin.router');
 
+const stripe = require("./routes/stripe.router");
+
+//const adminRouter = require('./routes/admin.router');
+
+//const admin = require('./middleware/admin');
 const auth = require('./middleware/auth');
 
 const admin = require('./middleware/admin');
@@ -25,9 +29,10 @@ app.use(auth);
 
 app.use('/api/v1/products/', productRouter);
 
-app.use(admin);
+app.use('/api/v1/stripe', stripe)
+//app.use(admin);
 
-app.use('/api/v1/admin/', adminRouter);
+//app.use('/api/v1/admin/', adminRouter);
 
 app.listen(port, () => {
     console.log(`Connected on port ${port}...`);
