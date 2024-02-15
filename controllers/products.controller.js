@@ -1,5 +1,5 @@
 const services = require('../services/products.service')
-const productValidation = require('../validation/product.validator');
+const productValidation = require('../validation/product.validator'); 
 
 const getAllProducts = async (req, res) => res.send(await services.getAllProductsService());
 

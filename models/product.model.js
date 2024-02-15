@@ -1,19 +1,36 @@
 const mongoose = require('mongoose');
 
+//
+const reviewSchema =  mongoose.Schema({
+  name : {type : String , 
+  required : [true, 'your name is required']
+  },//name
+  Comment : {
+    type : String
+  }, //comment
+  user : {
+    type : mongoose.Schema.Types.ObjectId, 
+    ref : 'user', 
+    required : [true , 'user is required']
+  }
+})
+
+
 const productSchema = mongoose.Schema({
+  //
     title: {
         type: String,
         required: true
     },
     description: {
-        type: String,
-        required: true
+        type: String, 
+        required: true 
     },
-    price: {
+    price: { 
         type: Number,
         required: true
     },
-    stock: {
+    stock: { 
         type: Number,
         required: true
     },
@@ -31,9 +48,11 @@ const productSchema = mongoose.Schema({
     },
     images: {
         type: [String],
-    }
-});
+    }, 
+    reviews : [reviewSchema], // the schema above
+    rating: {type : Number , default : 0}, // it's not nessesery to add rate
+}); 
 
-const Product = mongoose.model('Product', productSchema);
+const Product = mongoose.model('Product', productSchema); 
 
-module.exports = Product;
+module.exports = Product; 

@@ -4,10 +4,10 @@ const getAllProductsService = async () => {
     try {
         return await Product.find();
     } catch (e) {
-        console.log(e);
-    }
+        console.log(e); 
+    } 
 };
-
+ 
 const getProductByIdService = async id => {
     try {
         return await Product.find({_id: id});

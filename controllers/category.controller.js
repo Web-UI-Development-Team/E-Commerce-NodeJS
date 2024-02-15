@@ -2,8 +2,8 @@ const categoryModel = require("../models/category.model");
 
 // create a new category  parent 
 
-exports.createCategory = async (req, res) => { 
-  const nameCategory = req.body.nameCategory;
+exports.createCategory = async (req, res) => {  
+  const nameCategory = req.body.nameCategory; 
   try {
     const category = await categoryModel.create({ nameCategory }); //{}
     res.status(201).json({ category }); //{}
@@ -24,11 +24,12 @@ exports.gellAllCategory = async (req, res) => {
 //get products //belonging to a specific category//
 exports.getProductsByCategory = async (req,res)=>{
  try {
-  const id = req.params.id ;
+  const id = req.params.id ; 
   // get the product by id 
   const getSpecificProduct = await Product.find({category : id});
-  return getSpecificProduct; 
+  return res.status(200).json({getSpecificProduct});   
  }catch(err) {
   res.status(400).send(err);
  }
 }
+
