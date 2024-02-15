@@ -10,6 +10,12 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    shoppingCart:[
+        // {
+        //     type:mongoose.Schema.Types.ObjectId,
+        //     ref:'Product'
+        // }
+    ],
     encryptedPassword: {
         type: String,
         required: true,
