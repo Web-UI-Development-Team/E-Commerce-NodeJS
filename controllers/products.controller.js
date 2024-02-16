@@ -60,26 +60,30 @@ const deleteProduct = async (req, res) => {
 
 const searchProduct = async (req,res)=>{
     const item = req.params.name;
-    const value = req.params.value
-    console.log(item)
-    const itemSearched = await services.searchProductServices(item,value);
-    console.log(itemSearched);
+    const value = req.params.value;
+
+    const itemSearched = await services.searchProductService(item,value);
+
     if(!itemSearched){
-        res.status(404).send("This products wasn't found")
+        res.status(404).send("This products wasn't found");
         return;
     }
+
     res.send(itemSearched);
 }
 
 const filteredProducts = async(req,res)=>{
     try{
         //const products = await Product.find(req.query);
-        //const products = await Product.find().where('title').equals(req.query.title).where('price').equals(req.query.price)
+        //const products = await Product.find().where('title').equals(req.query.title).where('price').equals(req.query.price);
+
         let queryStr =JSON.stringify(req.query);
-        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match)=>`$${match}`)
+
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match)=>`$${match}`);
+
         const queryObj = JSON.parse(queryStr);
-        const products = await services.getfilteredProducts(queryObj)
-        console.log(products)
+        const products = await services.getFilteredProductsService(queryObj);
+
         res.status(200).json({
             status:'success',
             length:products.length,

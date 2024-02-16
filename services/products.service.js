@@ -42,9 +42,7 @@ const deleteProductService = async id =>  {
     }
 }
 
-const searchProductServices = async (key,value) =>{
-    console.log(key)
-    console.log(value);
+const searchProductService = async (key,value) =>{
     let product;
         if(!key){
             resizeBy.status(404).send("The Product not found");
@@ -59,7 +57,7 @@ const searchProductServices = async (key,value) =>{
         return product;
 }
 
-const getfilteredProducts = async (params) =>{
+const getFilteredProductsService = async (params) =>{
     if(!params){
         resizeBy.status(404).send("The Product not found");
         return;
@@ -68,15 +66,12 @@ const getfilteredProducts = async (params) =>{
     return products;
 }
 
-
-
-
 module.exports = {
     getAllProductsService,
     getProductByIdService,
     createNewProductService,
     updateProductService,
     deleteProductService,
-    searchProductServices,
-    getfilteredProducts
+    searchProductService,
+    getFilteredProductsService
 }
