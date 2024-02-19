@@ -1,11 +1,11 @@
-require('dotenv').config();
-require('./db');
+require('dotenv').config(); 
+require('./db'); 
 
 const express = require("express");
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json()); 
 
 const port = parseInt(process.env.PORT);
 
@@ -19,6 +19,8 @@ const adminRouter = require('./routes/admin.router');
 
 const auth = require('./middleware/auth');
 
+const categoryRouter = require('./routes/category.router'); 
+
 const admin = require('./middleware/admin');
 
 app.use("/api/v1/users",userRouter);
@@ -31,10 +33,13 @@ app.use('/api/v1/stripe', stripeRouter);
 
 app.use(admin);
 
+app.use('/api/categories', categoryRouter); 
+
 app.use('/api/v1/admin/', adminRouter);
 
-app.patch('/api/v1/User//:id',UpdateUser);
+// app.patch('/api/v1/User//:id',UpdateUser);
 
 app.listen(port, () => {
     console.log(`Connected on port ${port}...`);
 });
+/// 

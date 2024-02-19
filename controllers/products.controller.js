@@ -1,6 +1,6 @@
 const { name } = require('ejs');
 const services = require('../services/products.service');
-                         
+
 const productValidation = require('../validation/product.validator');
 const Product = require('../models/product.model');
 
@@ -58,13 +58,13 @@ const deleteProduct = async (req, res) => {
     res.send(product);
 }
 
-const searchProduct = async (req,res)=>{
+const searchProduct = async (req, res) => {
     const item = req.params.name;
     const value = req.params.value;
 
-    const itemSearched = await services.searchProductService(item,value);
+    const itemSearched = await services.searchProductService(item, value);
 
-    if(!itemSearched){
+    if (!itemSearched) {
         res.status(404).send("This products wasn't found");
         return;
     }
@@ -72,27 +72,27 @@ const searchProduct = async (req,res)=>{
     res.send(itemSearched);
 }
 
-const filteredProducts = async(req,res)=>{
-    try{
+const filteredProducts = async (req, res) => {
+    try {
         //const products = await Product.find(req.query);
         //const products = await Product.find().where('title').equals(req.query.title).where('price').equals(req.query.price);
 
-        let queryStr =JSON.stringify(req.query);
+        let queryStr = JSON.stringify(req.query);
 
-        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match)=>`$${match}`);
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
         const queryObj = JSON.parse(queryStr);
         const products = await services.getFilteredProductsService(queryObj);
 
         res.status(200).json({
-            status:'success',
-            length:products.length,
-            data:{
+            status: 'success',
+            length: products.length,
+            data: {
                 products
             }
         })
     }
-    catch(error){
+    catch (error) {
         console.log(error)
     }
 }

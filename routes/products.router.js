@@ -10,6 +10,8 @@ router.get("/:id", controllers.getProductById);
 
 router.get("/search/:name/:value", controllers.searchProduct);
 
+router.post("/", controllers.createProduct); 
+
 router.post("/", admin, controllers.createProduct);
 
 router.patch("/:id", admin, controllers.updateProduct);
