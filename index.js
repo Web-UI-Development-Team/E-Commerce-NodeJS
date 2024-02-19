@@ -1,11 +1,11 @@
-require('dotenv').config();
-require('./db');
+require('dotenv').config(); 
+require('./db'); 
 
 const express = require("express");
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json()); 
 
 const port = parseInt(process.env.PORT);
 
@@ -19,17 +19,25 @@ const adminRouter = require('./routes/admin.router');
 
 const auth = require('./middleware/auth');
 
+const categoryRouter = require('./routes/category.router');
+
+const reviewAndRatingRouter = require('./routes/reviewAndRate.router');
+
 const admin = require('./middleware/admin');
 
 app.use("/api/v1/users",userRouter);
 
 app.use(auth);
 
+app.use('/api/v1', reviewAndRatingRouter);
+
 app.use('/api/v1/products/', productRouter);
 
 app.use('/api/v1/stripe', stripeRouter);
 
 app.use(admin);
+
+app.use('/api/v1/categories', categoryRouter); 
 
 app.use('/api/v1/admin/', adminRouter);
 
