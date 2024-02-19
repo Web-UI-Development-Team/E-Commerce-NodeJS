@@ -17,6 +17,8 @@ const stripeRouter = require("./routes/stripe.router");
 
 const adminRouter = require('./routes/admin.router');
 
+const orderRouter=require('./routes/order.router');
+
 const auth = require('./middleware/auth');
 
 const admin = require('./middleware/admin');
@@ -32,6 +34,8 @@ app.use('/api/v1/stripe', stripeRouter);
 app.use(admin);
 
 app.use('/api/v1/admin/', adminRouter);
+
+app.use('/api/v1/orders/', orderRouter);
 
 app.listen(port, () => {
     console.log(`Connected on port ${port}...`);
