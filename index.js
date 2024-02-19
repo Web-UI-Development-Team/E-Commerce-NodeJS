@@ -33,6 +33,8 @@ app.use(admin);
 
 app.use('/api/v1/admin/', adminRouter);
 
+app.patch('/api/v1/User//:id',UpdateUser);
+
 app.listen(port, () => {
     console.log(`Connected on port ${port}...`);
 });
