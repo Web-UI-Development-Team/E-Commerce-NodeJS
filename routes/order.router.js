@@ -5,7 +5,7 @@ const admin=require('../middleware/admin')
 
 const router=express.Router();
 
-router.get('/', auth, admin, getAllOrders);
+router.get('/', admin, getAllOrders);
 
 router.get('/:id', getSpecificOrder);
 

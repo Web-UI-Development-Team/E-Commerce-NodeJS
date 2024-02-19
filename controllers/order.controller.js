@@ -1,10 +1,10 @@
-const Order = require("../models/order.model");
-const mongoose=require('mongoose');
+const services = require("../services/order.service");
+const mongoose = require('mongoose');
 
 
 const getAllOrders=async(req,res)=>{
     try{
-        const orders=await Order.find().populate('orderItems').populate('user');
+        const orders = await services.getAllOrdersService();
         res.json(orders);
     }
     catch(e){
@@ -14,9 +14,11 @@ const getAllOrders=async(req,res)=>{
 
 const getSpecificOrder=async(req,res)=>{
     try{
-        const orderId=req.params.id;
-        const order=await Order.findById(orderId).populate('orderItems').populate('user');
-        if(!order)return res.status(404).json("Order not found");
+        const orderId = req.params.id;
+        const order = await services.getOrderByIdService(orderId);
+
+        if(!order) return res.status(404).json("Order not found");
+
         res.json(order);
     }
     catch(e){
@@ -26,8 +28,20 @@ const getSpecificOrder=async(req,res)=>{
 
 const newOrder=async (req,res)=>{
     try{
+        /* Order Data */
         const newOrderData=req.body;
-        const newOrder=await Order.create(newOrderData);
+
+        /* User Data */
+        const token = req.headers["jwt"];
+
+        if (!token) return res.status(401).send({ message: "unauthorized user" });
+
+        const payload = jwt.verify(token, "myjwtsecret");
+        const { email } = payload;
+
+        newOrderData.email = email;
+
+        const newOrder = await services.createOrderService(newOrderData);
         res.status(201).json(newOrder);
     }
     catch(e){
@@ -38,7 +52,9 @@ const newOrder=async (req,res)=>{
 const cancelOrder=async(req,res)=>{
     try{
         const orderId=req.params.id;
-        const updatedOrder=Order.findByIdAndUpdate(orderId, { status: 'cancelled'},{new:true });
+        console.log(orderId);
+        const updatedOrder= await services.updateOrderService(orderId, "canceled");
+
         if (!updatedOrder) {
             return res.status(404).json({ message: 'Order not found' });
         }

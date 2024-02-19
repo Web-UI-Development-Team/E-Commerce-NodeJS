@@ -12,10 +12,12 @@ const getCurrentUser=async (req, res) => {
     try {
         const token = req.headers["jwt"];
         if (!token) return res.status(401).send({ message: "unauthorized user" });
-        const payload = jwt.verify(token, "myjwtsecret")
+        const payload = jwt.verify(token, "myjwtsecret");
         const { email } = payload;
+
         // console.log(email)
-       const user=await  getUserService(email)
+        
+       const user=await  getUserService(email);
         res.status(200).json(user.shoppingCart)
         if (!user) {
             return res.status(401).send({ message: "unauthorized user" });
