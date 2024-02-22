@@ -1,17 +1,35 @@
-const User=require('../models/user.model')
-const Product=require('../models/product.model')
+const Cart = require('../models/cart.model')
 
 
-const updateService=async(email, cart)=>{
+const getCurrentUserCartService = async id =>{
     try{
-        const user= await User.updateOne(
-            { email: email },
-            { shoppingCart: cart }
-        );
-
+        return await Cart.find({user: id}).select({product: 1, quantity: 1, _id: 0}).populate("product");
     }
     catch(e){
         console.log("error : ",e);
     }
 }
-module.exports=updateService
+
+const createCartService = async (body) => {
+    try{
+        return await Cart.create(body)
+    }
+    catch(e){
+        console.log("error : ",e);
+    }
+}
+
+const updateCartProduct = async (user, product, quantity) => {
+    try{
+        return await Cart.updateOne({user, product}, {quantity});
+    }
+    catch(e){
+        console.log("error : ",e);
+    } 
+}
+
+module.exports = {
+    getCurrentUserCartService,
+    createCartService,
+    updateCartProduct
+}

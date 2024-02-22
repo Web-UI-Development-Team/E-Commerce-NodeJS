@@ -19,7 +19,7 @@ const getAllCategoriesService = async () => {
 
 const getProductsByCategoryService = async categoryId => {
     try {
-        return await Product.find({category: categoryId}).populate("category");
+        return await Product.find({category: categoryId}).populate();
     } catch (e) {
         console.log(e);
     }

@@ -3,13 +3,13 @@ const router = express.Router();
 
 const controller = require('../controllers/cart.controller');
 
-router.get("/", controller.getCurrentUser);
+router.get("/", controller.getCurrentUserCart);
 
-router.post("/", controller.addProduct);
+router.post("/add", controller.addProduct);
 
-router.patch("/:cartId", controller.updatePrd);
+router.patch("/:productId", controller.updateProduct);
 
-router.delete("/:productId", controller.deletePrd);
+router.delete("/:productId", controller.deleteProduct);
 
 router.delete("/", controller.clearCart);
 

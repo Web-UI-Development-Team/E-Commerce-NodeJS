@@ -1,26 +1,32 @@
 require('mongoose');
 const jwt = require('jsonwebtoken');
-const User=require('../models/user.model')
-const Product=require('../models/product.model');
-const { getProductByIdService } = require('../services/products.service');
-const { getUserService } = require('../services/user.service');
-const updateService = require('../services/cart.service');
 
-const getCurrentUser = async (req, res) => {
+const productSerivces = require('../services/products.service');
+const userServices = require('../services/user.service');
+const cartServices = require('../services/cart.service');
+
+const validator = require('../validation/cart.validator');
+
+const getCurrentUserCart = async (req, res) => {
 
     try {
         const token = req.headers["jwt"];
-        if (!token) return res.status(401).send({ message: "unauthorized user" });
-        const payload = jwt.verify(token, "myjwtsecret");
-        const { email } = payload;
 
-        // console.log(email)
-        
-       const user=await  getUserService(email);
-        res.status(200).json(user.shoppingCart)
+        if (!token) return res.status(401).send({ message: "unauthorized user" });
+
+        const payload = jwt.verify(token, "myjwtsecret");
+
+        const user = await userServices.getUserService(payload.email);
+
         if (!user) {
             return res.status(401).send({ message: "unauthorized user" });
         }
+
+        console.log(user._id);
+
+        const cart = await cartServices.getCurrentUserCartService(user._id);
+
+        res.status(200).send(cart);
     }
     catch (e) {
         console.log(e);
@@ -28,23 +34,34 @@ const getCurrentUser = async (req, res) => {
     }
 }
 
-const addProduct=async (req, res) => {
-    const productId = req.body;
+const addProduct = async (req, res) => {
+    const { error, value } = validator.cartValidation(req.body);
+    
+    if (error) {
+        return res.status(422).send({ message: error.message });
+    }
+
+    const {product, quantity} = req.body;
+    
     try {
         const token = req.headers['jwt'];
-        if (!token) return res.status(401).send({ message: "unauthorized user" });
-        const payload = jwt.verify(token, 'myjwtsecret');
-        const { email } = payload;
-        const user = await getUserService(email);
-        console.log(email);
-        if (!user) return res.status(401).json({ message: "Unauthorized user" });
 
-        const prd = await getProductByIdService(productId);
-        console.log(prd);
-        if (!prd) return res.status(404).json("product not found")
-        user.shoppingCart.push(prd[0]);
-        await updateService(user.email, user.shoppingCart);
-        //  console.log(updatedUser);
+        if (!token) return res.status(401).send({ message: "unauthorized user" });
+
+        const payload = jwt.verify(token, 'myjwtsecret');
+
+        const user = await userServices.getUserService(payload.email);
+
+        if (!user) return res.status(401).send({ message: "unauthorized user" });
+
+        const isProduct = await productSerivces.getProductByIdService(product);
+
+        if (!isProduct) return res.status(404).json("product not found");
+
+        await cartServices.createCartService({user: user._id, product, quantity});
+
+        await userServices.updateUserCartService(user.email, user.cart)
+
         res.status(200).json(user.shoppingCart);
     }
     catch (e) {
@@ -52,42 +69,47 @@ const addProduct=async (req, res) => {
         res.status(500).json("server error")
     }
 };
-const updatePrd=async (req, res) => {
-    const cartId = req.params.cartId;
-    try {
-        // const email = req.headers["email"];
-        const token = req.headers["jwt"];
-        if (!token) return res.status(401).send({ message: "unauthorized user" });
-        const payload = jwt.verify(token, 'myjwtsecret');
-        const { email } = payload;
 
-        const user = await getUserService(email)
+const updateProduct = async (req, res) => {
+    const productId = req.params.productId;
+    const quantity = req.body
+    try {
+        const token = req.headers["jwt"];
+
+        if (!token) return res.status(401).send({ message: "unauthorized user" });
+
+        const payload = jwt.verify(token, 'myjwtsecret');
+
+        const user = await userServices.getUserService(payload.email);
+
         if (!user) {
             return res.status(404).json("User not found");
         }
 
         // Find the product in the shopping cart by its ID
-        const productToUpdate = user.shoppingCart.find(product => product._id == cartId);
 
-        if (!productToUpdate) {
-            return res.status(404).json("Product not found in shopping cart");
-        }
+        const isProduct = await productSerivces.getProductByIdService(productId);
 
-        Object.assign(productToUpdate, req.body);
-        await user.save();
+        if (!isProduct) return res.status(404).json("product not found");
+
+        await cartServices.updateCartProduct(user._id, productId, 20);
+
+        // Object.assign(productToUpdate, req.body);
+
+        // await user.save();
 
         // const updatedPrd = await User.updateOne(
         //     { email: email },
         //     { shoppingCart: }
         // );
         // console.log(updatedPrd);
-        res.status(200).json(user.shoppingCart);
+        // res.status(200).json(user.shoppingCart);
     } catch (error) {
         console.error("Error updating product:", error);
         res.status(500).json("Server error");
     }
 }
-const deletePrd=async (req, res) => {
+const deleteProduct = async (req, res) => {
     const productId = req.params.productId;
     try {
         const token = req.headers['jwt'];
@@ -102,7 +124,7 @@ const deletePrd=async (req, res) => {
             return res.status(404).json("Product not found in shopping cart");
         }
 
-        user.shoppingCart.splice(productToDelete,1);
+        user.shoppingCart.splice(productToDelete, 1);
 
         await user.save();
         res.status(200).json({ message: "Product deleted from shopping cart successfully" });
@@ -113,29 +135,29 @@ const deletePrd=async (req, res) => {
     }
 }
 
-const clearCart=async(req,res)=>{
-    try{
-        const token=req.headers['jwt'];
-        const payload=jwt.verify(token,'myjwtsecret');
-        const email=payload.email;
+const clearCart = async (req, res) => {
+    try {
+        const token = req.headers['jwt'];
+        const payload = jwt.verify(token, 'myjwtsecret');
+        const email = payload.email;
 
         const user = await getUserService(email)
         if (!user) return res.status(401).json({ message: "Unauthorized user" });
 
-        
-        user.shoppingCart=[];
+
+        user.shoppingCart = [];
         await user.save();
         res.status(200).json({ message: "All Products deleted from shopping cart successfully" });
     }
-    catch(e){
+    catch (e) {
         console.error("Error deleting product:", e);
         res.status(500).json("Server error");
     }
 }
-module.exports={
-    getCurrentUser,
+module.exports = {
+    getCurrentUserCart,
     addProduct,
-    updatePrd,
-    deletePrd,
+    updateProduct,
+    deleteProduct,
     clearCart
 }

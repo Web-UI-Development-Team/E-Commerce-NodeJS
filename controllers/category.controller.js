@@ -21,6 +21,7 @@ exports.createCategory = async (req, res) => {
 exports.gellAllCategory = async (req, res) => {
   try {
     const getCategories = await services.getAllCategoriesService();
+    
     res.status(200).send({ count: getCategories.length, data: getCategories });
   } catch (err) {
     res.status(400).send(err);

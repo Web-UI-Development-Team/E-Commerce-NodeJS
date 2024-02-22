@@ -1,5 +1,5 @@
 const joi = require('joi');
-joi.objectId = require('joi-objectid')(joi)
+joi.objectId = require('joi-objectid')(joi);
 
 const schema = joi.object({
     title: joi.string().min(5).max(500).required(),
