@@ -39,8 +39,9 @@ const productSchema = mongoose.Schema({
         required: true
     },
     category: {
-        type: String,
-        required: true
+        type : mongoose.Schema.Types.ObjectId, 
+        ref : 'Category',
+        required : [true , 'user is required']
     },
     thumbnail: {
         type: String,

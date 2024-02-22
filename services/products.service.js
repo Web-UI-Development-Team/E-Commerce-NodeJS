@@ -3,7 +3,7 @@ const Product = require('../models/product.model');
 
 const getAllProductsService = async () => {
     try {
-        return await Product.find();
+        return await Product.find().populate('category');
     } catch (e) {
         console.log(e); 
     } 
@@ -11,7 +11,7 @@ const getAllProductsService = async () => {
  
 const getProductByIdService = async id => {
     try {
-        return await Product.find({_id: id});
+        return await Product.find({_id: id}).populate('category');
     } catch(e) {
         console.log(e);
     }

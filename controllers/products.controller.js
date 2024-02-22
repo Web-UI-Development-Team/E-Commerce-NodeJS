@@ -1,8 +1,5 @@
-const { name } = require('ejs');
-const services = require('../services/products.service');
-                         
+const services = require('../services/products.service');    
 const productValidation = require('../validation/product.validator');
-const Product = require('../models/product.model');
 
 const getAllProducts = async (req, res) => res.send(await services.getAllProductsService());
 

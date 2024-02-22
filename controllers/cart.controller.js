@@ -6,8 +6,7 @@ const { getProductByIdService } = require('../services/products.service');
 const { getUserService } = require('../services/user.service');
 const updateService = require('../services/cart.service');
 
-
-const getCurrentUser=async (req, res) => {
+const getCurrentUser = async (req, res) => {
 
     try {
         const token = req.headers["jwt"];

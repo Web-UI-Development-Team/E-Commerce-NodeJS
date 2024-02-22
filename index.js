@@ -13,6 +13,8 @@ const port = parseInt(process.env.PORT);
 
 const userRouter = require("./routes/user.router");
 
+const profileRouter = require("./routes/profile.router");
+
 const productRouter = require('./routes/products.router');
 
 const stripeRouter = require("./routes/stripe.router");
@@ -23,17 +25,19 @@ const orderRouter=require('./routes/order.router');
 
 const cartRouter=require('./routes/cart.router');
 
-const auth = require('./middleware/auth');
-
 const categoryRouter = require('./routes/category.router');
 
 const reviewAndRatingRouter = require('./routes/reviewAndRate.router');
+
+const auth = require('./middleware/auth');
 
 const admin = require('./middleware/admin');
 
 app.use("/api/v1/users", userRouter);
 
 app.use(auth);
+
+app.use('/api/v1/profile', profileRouter);
 
 app.use('/api/v1', reviewAndRatingRouter);
 

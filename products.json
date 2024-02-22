@@ -5,7 +5,7 @@
         "price": 20000,
         "stock": 94,
         "brand": "Apple",
-        "category": "smartphones",
+        "category": "65d3b123b8d87cf488f7c9d9",
         "thumbnail": "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
         "images": [
             "https://cdn.dummyjson.com/product-images/1/1.jpg",
@@ -21,7 +21,7 @@
         "price": 35000,
         "stock": 34,
         "brand": "Apple",
-        "category": "smartphones",
+        "category": "65d3b123b8d87cf488f7c9d9",
         "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
         "images": [
             "https://cdn.dummyjson.com/product-images/2/1.jpg",
@@ -36,7 +36,7 @@
         "price": 25000,
         "stock": 36,
         "brand": "Samsung",
-        "category": "smartphones",
+        "category": "65d3b123b8d87cf488f7c9d9",
         "thumbnail": "https://cdn.dummyjson.com/product-images/3/thumbnail.jpg",
         "images": [
             "https://cdn.dummyjson.com/product-images/3/1.jpg"
@@ -48,7 +48,7 @@
         "price": 280,
         "stock": 123,
         "brand": "OPPO",
-        "category": "smartphones",
+        "category": "65d3b123b8d87cf488f7c9d9",
         "thumbnail": "https://cdn.dummyjson.com/product-images/4/thumbnail.jpg",
         "images": [
             "https://cdn.dummyjson.com/product-images/4/1.jpg",
@@ -64,7 +64,7 @@
         "price": 20000,
         "stock": 32,
         "brand": "Huawei",
-        "category": "smartphones",
+        "category": "65d3b123b8d87cf488f7c9d9",
         "thumbnail": "https://cdn.dummyjson.com/product-images/5/thumbnail.jpg",
         "images": [
             "https://cdn.dummyjson.com/product-images/5/1.jpg",
@@ -78,7 +78,7 @@
         "price": 1749,
         "stock": 83,
         "brand": "Apple",
-        "category": "laptops",
+        "category": "65d68b1b18e09002a2d74270",
         "thumbnail": "https://cdn.dummyjson.com/product-images/6/thumbnail.png",
         "images": [
             "https://cdn.dummyjson.com/product-images/6/1.png",
@@ -93,7 +93,7 @@
         "price": 1499,
         "stock": 50,
         "brand": "Samsung",
-        "category": "laptops",
+        "category": "65d68b1b18e09002a2d74270",
         "thumbnail": "https://cdn.dummyjson.com/product-images/7/thumbnail.jpg",
         "images": [
             "https://cdn.dummyjson.com/product-images/7/1.jpg",
@@ -108,7 +108,7 @@
         "price": 1499,
         "stock": 68,
         "brand": "Microsoft Surface",
-        "category": "laptops",
+        "category": "65d68b1b18e09002a2d74270",
         "thumbnail": "https://cdn.dummyjson.com/product-images/8/thumbnail.jpg",
         "images": [
             "https://cdn.dummyjson.com/product-images/8/1.jpg",
