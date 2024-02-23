@@ -12,4 +12,6 @@ const quantitySchema = joi.object({
 
 const cartValidation = cart => cartSchema.validate(cart);
 
-module.exports = {cartValidation};
+module.exports = {
+    cartValidation
+};
