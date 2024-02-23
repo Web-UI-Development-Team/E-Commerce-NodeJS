@@ -25,8 +25,30 @@ const getProductsByCategoryService = async categoryId => {
     }
 }
 
+const getFilteredCategoriesService = async (params) =>{
+    if(!params){
+        resizeBy.status(404).send("The Category not found");
+        return;
+    }
+    const categories = await Category.find(params);
+    return categories;
+}
+
+const getCategoryByName = async (name) => {
+    try {
+        return await Category.find({nameCategory: name});
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+// console.log(getFilteredCategoriesService);
+
+
 module.exports = {
     createNewCategoryService,
     getAllCategoriesService,
-    getProductsByCategoryService
+    getProductsByCategoryService,
+    getFilteredCategoriesService,
+    getCategoryByName
 }

@@ -3,6 +3,7 @@ const router = express.Router();
 const admin = require('../middleware/admin')
 
 const controllers = require('../controllers/products.controller');
+const getCategoryName = require('../helpers/search.helpers');
 
 router.get("/", controllers.getAllProducts);
 
@@ -18,6 +19,8 @@ router.patch("/:id", admin, controllers.updateProduct);
 
 router.delete("/:id", admin, controllers.deleteProduct);
 
-router.get("/filter/items",controllers.filteredProducts);
+router.get("/filter/products",controllers.filteredProducts);
+
+router.get("/search/id", getCategoryName)
 
 module.exports = router;
