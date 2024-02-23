@@ -1,8 +1,8 @@
-const Order=require('../models/order.model');
+const Order = require('../models/order.model');
 
 const getAllOrdersService = async () => {
     try {
-        return await Order.find().populate('orderItems').populate('user');
+        return await Order.find().populate('orderItems');
     } catch (e) {
         console.log(e);
     }
@@ -26,7 +26,7 @@ const createOrderService = async (data) => {
 
 const updateOrderService = async (id, status) => {
     try {
-        return await Order.updateOne({_id: id}, { status });
+        return await Order.updateOne({ _id: id }, { status });
     } catch (e) {
         console.log(e);
     }

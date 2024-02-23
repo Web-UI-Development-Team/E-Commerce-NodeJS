@@ -1,5 +1,4 @@
-const Cart = require('../models/cart.model')
-
+const Cart = require('../models/cart.model');
 
 const getCurrentUserCartService = async id =>{
     try{
@@ -19,9 +18,27 @@ const createCartService = async (body) => {
     }
 }
 
-const updateCartProduct = async (user, product, quantity) => {
+const updateCartService = async (user, product, quantity) => {
     try{
         return await Cart.updateOne({user, product}, {quantity});
+    }
+    catch(e){
+        console.log("error : ",e);
+    } 
+}
+
+const deleteCartService = async (user, product) => {
+    try{
+        return await Cart.deleteOne({user, product});
+    }
+    catch(e){
+        console.log("error : ",e);
+    } 
+}
+
+const deleteAllCartService = async (user) => {
+    try{
+        return await Cart.deleteMany({user});
     }
     catch(e){
         console.log("error : ",e);
@@ -31,5 +48,7 @@ const updateCartProduct = async (user, product, quantity) => {
 module.exports = {
     getCurrentUserCartService,
     createCartService,
-    updateCartProduct
+    updateCartService,
+    deleteCartService,
+    deleteAllCartService
 }
