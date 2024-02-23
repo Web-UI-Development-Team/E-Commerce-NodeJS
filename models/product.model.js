@@ -50,7 +50,7 @@ const productSchema = mongoose.Schema({
         type: [String],
     }, 
     reviews : [reviewSchema], // the schema above
-    rating: {type : Number , default : 0}, // it's not nessesery to add rate
+    rating: {type : Number , default : 0}, // it's not nessesery to add rate 
 }); 
 
 const Product = mongoose.model('Product', productSchema); 
