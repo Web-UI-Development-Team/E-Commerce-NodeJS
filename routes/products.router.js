@@ -8,7 +8,9 @@ router.get("/", controllers.getAllProducts);
 
 router.get("/:id", controllers.getProductById);
 
-router.get("/search/:name/:value", controllers.searchProduct);
+//router.get("/search/:name/:value", controllers.searchProduct);
+
+router.get("/search/product/:search",controllers.productSearch);
 
 router.post("/", controllers.createProduct); 
 
