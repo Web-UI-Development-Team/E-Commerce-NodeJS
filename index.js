@@ -33,9 +33,17 @@ const auth = require('./middleware/auth');
 
 const admin = require('./middleware/admin');
 
+app.use('/api/v1/orders/', orderRouter);
+
+app.use('/api/v1/categories', categoryRouter); 
+
+app.use('/api/v1/products/', productRouter);
+
+app.use('/api/v1/stripe', stripeRouter);
+
 app.use("/api/v1/users", userRouter);
 
-app.use(auth);
+//app.use(auth);
 
 app.use('/api/v1/profile', profileRouter);
 
@@ -43,17 +51,11 @@ app.use('/api/v1', reviewAndRatingRouter);
 
 app.use("/api/v1/cart/", cartRouter);
 
-app.use('/api/v1/products/', productRouter);
 
-app.use('/api/v1/stripe', stripeRouter);
+//app.use(admin);
 
-app.use(admin);
-
-app.use('/api/v1/categories', categoryRouter); 
 
 app.use('/api/v1/admin/', adminRouter);
-
-app.use('/api/v1/orders/', orderRouter);
 
 app.listen(port, () => {
     console.log(`Connected on port ${port}...`);

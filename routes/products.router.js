@@ -18,6 +18,7 @@ router.patch("/:id", admin, controllers.updateProduct);
 
 router.delete("/:id", admin, controllers.deleteProduct);
 
-router.get("/filter/items",controllers.filteredProducts);
+router.get("/filter/products",controllers.filteredProducts);
+
 
 module.exports = router;

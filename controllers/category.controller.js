@@ -44,3 +44,29 @@ exports.getProductsByCategory = async (req,res)=>{
  }
 }
 
+exports.filteredCategories = async(req,res)=>{
+  try{
+
+    let queryStr = JSON.stringify(req.query);
+    
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match)=>`$${match}`);
+
+    const queryObj = JSON.parse(queryStr);
+    //console.log(queryObj);
+    
+    const categories = await services.getFilteredCategoriesService(queryObj);
+
+    res.status(200).json({
+      status:'success',
+      length:categories.length,
+      data:{
+        categories
+      }
+    })
+  }
+  catch(error){
+    console.log(error)
+  }
+}
+
+

@@ -1,5 +1,8 @@
+const Product = require('../models/product.model');
 const services = require('../services/products.service');    
 const productValidation = require('../validation/product.validator');
+
+const {getCategoryByName} = require('../services/category.service');
 
 const getAllProducts = async (req, res) => res.send(await services.getAllProductsService());
 
@@ -73,12 +76,23 @@ const filteredProducts = async(req,res)=>{
     try{
         //const products = await Product.find(req.query);
         //const products = await Product.find().where('title').equals(req.query.title).where('price').equals(req.query.price);
-
+        //console.log(req);
         let queryStr =JSON.stringify(req.query);
+        console.log(queryStr);
 
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match)=>`$${match}`);
-
         const queryObj = JSON.parse(queryStr);
+
+        const keys = Object.keys(queryObj);
+        console.log(keys)
+
+        if(keys.includes("category")){
+            const cat = await getCategoryByName(queryObj.category);
+            queryObj.category = cat[0]._id;
+    
+            console.log(cat);
+        }
+
         const products = await services.getFilteredProductsService(queryObj);
 
         res.status(200).json({
