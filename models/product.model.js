@@ -39,7 +39,6 @@ const productSchema = mongoose.Schema({
         ref : 'Review',
         required : true 
     }], // the schema above
-    rating: {type : Number , default : 0}, // it's not nessesery to add rate
 }); 
 
 const Product = mongoose.model('Product', productSchema); 
