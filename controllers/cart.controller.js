@@ -1,4 +1,4 @@
-require('mongoose');
+const mongoose=require('mongoose');
 const jwt = require('jsonwebtoken');
 
 const productSerivces = require('../services/products.service');
@@ -56,12 +56,13 @@ const addProduct = async (req, res) => {
         const isProduct = await productSerivces.getProductByIdService(product);
 
         if (!isProduct) return res.status(404).json("product not found");
-
+        // console.log(isProduct);
+        
         await cartServices.createCartService({user: user._id, product, quantity});
 
         await userServices.updateUserCartService(user.email, user.cart)
 
-        res.status(200).json(user.shoppingCart);
+        res.status(200).json(user.cart);
     }
     catch (e) {
         console.log(e);
@@ -71,7 +72,7 @@ const addProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     const productId = req.params.productId;
-    const quantity = req.body;
+    const quantity = parseInt(req.body.quantity);
     
     try {
         const token = req.headers["jwt"];
@@ -92,18 +93,10 @@ const updateProduct = async (req, res) => {
 
         if (!isProduct) return res.status(404).json("product not found");
 
-        await cartServices.updateCartProduct(user._id, productId, quantity);
+       const updated= await cartServices.updateCartService(user._id, productId, quantity);
+       res.json(updated)
+        // console.log(updated);
 
-        // Object.assign(productToUpdate, req.body);
-
-        // await user.save();
-
-        // const updatedPrd = await User.updateOne(
-        //     { email: email },
-        //     { shoppingCart: }
-        // );
-        // console.log(updatedPrd);
-        // res.status(200).json(user.shoppingCart);
     } catch (error) {
         console.error("Error updating product:", error);
         res.status(500).json("Server error");
