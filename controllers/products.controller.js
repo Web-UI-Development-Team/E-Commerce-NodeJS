@@ -58,18 +58,33 @@ const deleteProduct = async (req, res) => {
     res.send(product);
 }
 
-const searchProduct = async (req,res)=>{
-    const item = req.params.name;
-    const value = req.params.value;
+// const searchProduct = async (req,res)=>{
+//     const item = req.params.name;
+//     const value = req.params.value;
 
-    const itemSearched = await services.searchProductService(item,value);
+//     const itemSearched = await services.searchProductService(item,value);
 
-    if(!itemSearched){
-        res.status(404).send("This products wasn't found");
-        return;
+//     if(!itemSearched){
+//         res.status(404).send("This products wasn't found");
+//         return;
+//     }
+
+//     res.send(itemSearched);
+// }
+
+const productSearch = async(req,res)=>{
+    try{
+        const product = await services.productSearchServices(req.params.search);
+        console.log(typeof(product));
+        if(!product || product.length ===0){
+            res.status(404).send("The product doesn't exist");
+            return;
+        }
+        res.status(201).send(product);
     }
-
-    res.send(itemSearched);
+    catch(err){
+        console.log(err);
+    }
 }
 
 const filteredProducts = async(req,res)=>{
@@ -114,6 +129,6 @@ module.exports = {
     createProduct,
     updateProduct,
     deleteProduct,
-    searchProduct,
+    productSearch,
     filteredProducts
 }

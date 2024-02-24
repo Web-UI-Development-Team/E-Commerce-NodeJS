@@ -44,19 +44,43 @@ const deleteProductService = async id =>  {
     }
 }
 
-const searchProductService = async (key,value) =>{
-    let product;
-        if(!key){
-            resizeBy.status(404).send("The Product not found");
-            return;
-        }
-        if(key == 'title'){
-            product = await Product.find({title:value});
-        }
-        if(key == 'brand'){
-            product = await Product.find({brand:value});
-        }
-        return product;
+// const searchProductService = async (key,value) =>{
+//     let product;
+//         if(!key){
+//             resizeBy.status(404).send("The Product not found");
+//             return;
+//         }
+//         if(key == 'title'){
+//             product = await Product.find({title:value});
+//         }
+//         if(key == 'brand'){
+//             product = await Product.find({brand:value});
+//         }
+//         return product;
+// }
+
+// exports.postSearch=async (req,res,next)=>{
+//     const search= req.body.search;
+//     if(!search){
+//       return res.redirect('/')
+//     }
+//     const newSearch = await Product.find({ title: { "$regex": search, "$options": "i" } })
+//     .then(data=>{
+//       console.log("this is search" + data);
+//     })
+//     .catch(err=>{
+//       console.log(err);
+//     })
+//     res.redirect('/')
+//   }
+
+const productSearchServices = async (search) =>{
+    try{
+        return await Product.find({title:{"$regex":search, "$options":"i"}})
+    }
+    catch(err){
+        console.log(err)
+    }
 }
 
 const getFilteredProductsService = async (params) =>{
@@ -74,6 +98,6 @@ module.exports = {
     createNewProductService,
     updateProductService,
     deleteProductService,
-    searchProductService,
+    productSearchServices,
     getFilteredProductsService
 }
