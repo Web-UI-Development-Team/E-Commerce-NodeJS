@@ -2,7 +2,7 @@ const mongoose=require('mongoose');
 
 const orderSchema = mongoose.Schema({
     orderItems:[{
-        type: Array,
+        type: Object,
         required:true
     }],
     shippingAddress:{
