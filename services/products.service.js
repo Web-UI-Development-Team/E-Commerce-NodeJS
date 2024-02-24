@@ -11,7 +11,7 @@ const getAllProductsService = async () => {
  
 const getProductByIdService = async id => {
     try {
-        return await Product.find({_id: id}).populate('category');
+        return await Product.find({_id: id}).populate('category').populate("reviews");
     } catch(e) {
         console.log(e);
     }
