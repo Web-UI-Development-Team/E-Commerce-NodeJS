@@ -19,6 +19,7 @@ const createNewUser = async (req, res) => {
     }
 
     const encryptedPassword = await bcrypt.hash(password, 10);
+
     const newUser = await service.createNewUserService({ name, email, encryptedPassword, isAdmin });
 
     res.send(newUser);
@@ -26,7 +27,7 @@ const createNewUser = async (req, res) => {
 
 const login = async (req, res) => {
     const { error, value } = validator.validateLogin(req.body);
-
+    
     if (error) {
         return res.status(422).send({ message: error.message });
     }

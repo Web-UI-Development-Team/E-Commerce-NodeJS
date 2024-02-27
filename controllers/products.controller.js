@@ -1,6 +1,5 @@
-const Product = require('../models/product.model');
 const services = require('../services/products.service');    
-const productValidation = require('../validation/product.validator');
+const validation = require('../validation/product.validator');
 
 const {getCategoryByName} = require('../services/category.service');
 
@@ -14,12 +13,10 @@ const getProductById = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-    const { error, value } = productValidation(req.body);
+    const { error, value } = validation.craeteProductValidation(req.body);
 
     if (error) {
-        res.status(400).send({ message: "Error happened while creating a new product" });
-        console.log(error);
-        return;
+        return res.status(400).send({ message: error.message });
     }
 
     res.send(await services.createNewProductService(value));
@@ -29,15 +26,13 @@ const updateProduct = async (req, res) => {
     const product = await services.getProductByIdService(req.params.id);
 
     if (!product) {
-        res.status(404).send("The product with id: " + req.params.id + " not exists");
-        return;
+        return res.status(404).send("The product with id: " + req.params.id + " not exists");
     }
 
-    const { error, value } = productValidation(req.body);
+    const { error, value } = validation.updateProductValidation(req.body);
 
     if (error) {
-        res.status(400).send({ message: "Please enter valid data" });
-        return;
+        return res.status(400).send({ message: "Please enter valid data" });
     }
 
     await services.updateProductService(req.params.id, req.body);
@@ -58,28 +53,15 @@ const deleteProduct = async (req, res) => {
     res.send(product);
 }
 
-// const searchProduct = async (req,res)=>{
-//     const item = req.params.name;
-//     const value = req.params.value;
-
-//     const itemSearched = await services.searchProductService(item,value);
-
-//     if(!itemSearched){
-//         res.status(404).send("This products wasn't found");
-//         return;
-//     }
-
-//     res.send(itemSearched);
-// }
-
 const productSearch = async(req,res)=>{
     try{
         const product = await services.productSearchServices(req.params.search);
-        console.log(typeof(product));
+
         if(!product || product.length ===0){
             res.status(404).send("The product doesn't exist");
             return;
         }
+
         res.status(201).send(product);
     }
     catch(err){
@@ -89,23 +71,17 @@ const productSearch = async(req,res)=>{
 
 const filteredProducts = async(req,res)=>{
     try{
-        //const products = await Product.find(req.query);
-        //const products = await Product.find().where('title').equals(req.query.title).where('price').equals(req.query.price);
-        //console.log(req);
         let queryStr =JSON.stringify(req.query);
-        console.log(queryStr);
 
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match)=>`$${match}`);
+
         const queryObj = JSON.parse(queryStr);
 
         const keys = Object.keys(queryObj);
-        console.log(keys)
 
         if(keys.includes("category")){
             const cat = await getCategoryByName(queryObj.category);
             queryObj.category = cat[0]._id;
-    
-            console.log(cat);
         }
 
         const products = await services.getFilteredProductsService(queryObj);

@@ -7,7 +7,7 @@ const express = require("express");
 
 const app = express();
 
-app.use(express.json()); 
+app.use(express.json());
 
 const port = parseInt(process.env.PORT);
 
@@ -21,9 +21,9 @@ const stripeRouter = require("./routes/stripe.router");
 
 const adminRouter = require('./routes/admin.router');
 
-const orderRouter=require('./routes/order.router');
+const orderRouter = require('./routes/order.router');
 
-const cartRouter=require('./routes/cart.router');
+const cartRouter = require('./routes/cart.router');
 
 const categoryRouter = require('./routes/category.router');
 
@@ -33,27 +33,25 @@ const auth = require('./middleware/auth');
 
 const admin = require('./middleware/admin');
 
-app.use('/api/v1/orders/', orderRouter);
-
-app.use('/api/v1/categories', categoryRouter); 
+app.use("/api/v1/users", userRouter);
 
 app.use('/api/v1/products', productRouter);
 
-app.use('/api/v1/stripe', stripeRouter);
-
-app.use("/api/v1/users", userRouter);
-
-//app.use(auth);
+app.use(auth);
 
 app.use('/api/v1/profile', profileRouter);
 
-app.use('/api/v1', reviewAndRatingRouter);
+app.use('/api/v1/categories', categoryRouter);
 
 app.use("/api/v1/cart/", cartRouter);
 
+app.use('/api/v1/orders/', orderRouter);
 
-//app.use(admin);
+app.use('/api/v1/stripe', stripeRouter);
 
+app.use('/api/v1', reviewAndRatingRouter);
+
+app.use(admin);
 
 app.use('/api/v1/admin/', adminRouter);
 

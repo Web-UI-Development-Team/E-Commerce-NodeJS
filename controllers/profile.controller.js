@@ -7,21 +7,26 @@ const User = require('../models/user.model');
 const getUserProfile = async (req, res) => {
     const token = req.headers["jwt"];
 
-    if (!token) res.status(401).send({ message: "unauthorized user" });
+    if (!token) {
+        return res.status(401).send({ message: "unauthorized user" });
+    }
 
     const payload = jwt.verify(token, "myjwtsecret");
 
     const user = await services.getUserProfileService(payload.email);
 
-    if (!user) res.status(404).send({ message: "not found" });
+    if (!user) {
+        return res.status(404).send({ message: "not found" });
+    }
 
     res.send({
         name: user.name,
         email: user.email
     });
 }
+
 const updateUserProfile = async (req, res) => {
-    let _name, email;
+    let _name, email, encryptedPassword;
     try {
         const { error, value } = validator.validateUserProfile(req.body);
 
@@ -31,7 +36,9 @@ const updateUserProfile = async (req, res) => {
 
         const token = req.headers["jwt"];
 
-        if (!token) res.status(401).send({ message: "unauthorized user" });
+        if (!token) {
+            return res.status(401).send({ message: "unauthorized user" });
+        }
 
         const payload = jwt.verify(token, "myjwtsecret");
 
@@ -43,24 +50,16 @@ const updateUserProfile = async (req, res) => {
         if (!req.body.name) _name = user.name;
         else _name = req.body.name;
 
-       
-        
-        const Password = req.body.password || user.encryptedPassword;
-        console.log(Password);
-        
-        const encryptedPassword = await bycrypt.hash(Password, 10);
-        console.log(encryptedPassword);
+        if (!req.body.password) encryptedPassword = user.encryptedPassword;
+        else encryptedPassword = await bycrypt.hash(req.body.password, 10)
 
-        await services.updateUserProfileService(payload.email, _name, email, encryptedPassword);
+        await services.updateUserProfileService(payload.email, { name: _name, email, encryptedPassword });
 
         res.send(req.body);
-    } catch (e) {
-        console.log(e);
-        res.status(500).json(e);
+    } catch (error) {
+        res.status(500).json(error);
     }
 };
-
-
 
 module.exports = {
     getUserProfile,

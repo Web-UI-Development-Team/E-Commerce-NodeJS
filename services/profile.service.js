@@ -9,9 +9,9 @@ const getUserProfileService = async (email) => {
     }
 }
 
-const updateUserProfileService = async (oldEmail, name, newEmail, newPassword) => {
+const updateUserProfileService = async (email, body) => {
     try {
-        return await Profile.updateOne({ email: oldEmail }, { name:name, email: newEmail,encryptedPassword: newPassword });
+        return await Profile.updateOne({ email }, body);
     }
     catch (error) {
         console.log(error);

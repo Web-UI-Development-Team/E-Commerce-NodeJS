@@ -13,7 +13,6 @@ const admin = async (req, res, next) =>{
 
         if(!user.isAdmin) return res.status(401).send({message:"permission denied"});
 
-
         next();
     }
     catch(e){

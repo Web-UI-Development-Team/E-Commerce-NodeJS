@@ -1,7 +1,7 @@
 const joi = require('joi');
 joi.objectId = require('joi-objectid')(joi);
 
-const schema = joi.object({
+const createProduct = joi.object({
     title: joi.string().min(5).max(500).required(),
     description: joi.string().min(5).max(1000).required(),
     price: joi.number().integer().required(),
@@ -12,6 +12,21 @@ const schema = joi.object({
     images: joi.array().items(joi.string())
 });
 
-const productValidation = product => schema.validate(product);
+const craeteProductValidation = product => createProduct.validate(product);
 
-module.exports = productValidation;
+const updateProduct = joi.object({
+    title: joi.string().min(5).max(500),
+    description: joi.string().min(5).max(1000),
+    price: joi.number().integer(),
+    stock: joi.number().integer(),
+    brand: joi.string().min(3).max(50),
+    thumbnail: joi.string(),
+    images: joi.array().items(joi.string())
+});
+
+const updateProductValidation = product => updateProduct.validate(product);
+
+module.exports = {
+    craeteProductValidation,
+    updateProductValidation
+};
