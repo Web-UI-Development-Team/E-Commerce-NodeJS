@@ -49,7 +49,7 @@ app.use('/api/v1/orders/', orderRouter);
 
 app.use('/api/v1/stripe', stripeRouter);
 
-app.use('/api/v1', reviewAndRatingRouter);
+app.use('/api/v1/products', reviewAndRatingRouter);
 
 app.use(admin);
 

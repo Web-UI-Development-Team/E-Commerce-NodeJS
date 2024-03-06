@@ -5,15 +5,15 @@ const getAllProductsService = async () => {
     try {
         return await Product.find().populate('category');
     } catch (e) {
-        console.log(e); 
-    } 
+        console.log(e);
+    }
 };
- 
+
 const getProductByIdService = async id => {
     try {
-        return await Product.findOne({_id: id}).populate('category').populate("reviews");
+        return await Product.findOne({ _id: id }).populate('category').populate("reviews");
 
-    } catch(e) {
+    } catch (e) {
         console.log(e);
     }
 }
@@ -29,15 +29,24 @@ const createNewProductService = async product => {
 
 const updateProductService = async (id, body) => {
     try {
-        return await Product.updateOne({_id: id}, body);
+        return await Product.updateOne({ _id: id }, body);
     } catch (e) {
         console.log(e);
     }
 }
 
-const deleteProductService = async id =>  {
+const updateProductRateService = async (id, rating) => {
     try {
-        return await Product.deleteOne({_id: id});
+        console.log(rating);
+        return await Product.updateOne({ _id: id }, {rating});
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+const deleteProductService = async id => {
+    try {
+        return await Product.deleteOne({ _id: id });
     } catch (e) {
         console.log(e);
     }
@@ -73,17 +82,17 @@ const deleteProductService = async id =>  {
 //     res.redirect('/')
 //   }
 
-const productSearchServices = async (search) =>{
-    try{
-        return await Product.find({title:{"$regex":search, "$options":"i"}})
+const productSearchServices = async (search) => {
+    try {
+        return await Product.find({ title: { "$regex": search, "$options": "i" } })
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
 }
 
-const getFilteredProductsService = async (params) =>{
-    if(!params){
+const getFilteredProductsService = async (params) => {
+    if (!params) {
         resizeBy.status(404).send("The Product not found");
         return;
     }
@@ -98,5 +107,6 @@ module.exports = {
     updateProductService,
     deleteProductService,
     productSearchServices,
-    getFilteredProductsService
+    getFilteredProductsService,
+    updateProductRateService
 }
