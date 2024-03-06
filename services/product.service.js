@@ -37,7 +37,6 @@ const updateProductService = async (id, body) => {
 
 const updateProductRateService = async (id, rating) => {
     try {
-        console.log(rating);
         return await Product.updateOne({ _id: id }, {rating});
     } catch (e) {
         console.log(e);

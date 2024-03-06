@@ -9,6 +9,15 @@ const createNewRating = async (body) => {
     }
 }
 
+const getUserRating = async (body) => {
+    try {
+        return  await Rating.findOne(body);;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 const getAllRates = async (product) => {
     try {
         return await Rating.find({product});
@@ -20,5 +29,6 @@ const getAllRates = async (product) => {
 
 module.exports = {
     createNewRating,
+    getUserRating,
     getAllRates
 }

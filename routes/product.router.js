@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const admin = require('../middleware/admin')
 
-const controllers = require('../controllers/products.controller');
+const controllers = require('../controllers/product.controller');
 
 router.get("/", controllers.getAllProducts);
 

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const productSchema = mongoose.Schema({
-    //
     title: {
         type: String,
         required: true
@@ -13,6 +12,9 @@ const productSchema = mongoose.Schema({
     price: {
         type: Number,
         required: true
+    },
+    discount: {
+        type: Number,
     },
     stock: {
         type: Number,
@@ -41,9 +43,10 @@ const productSchema = mongoose.Schema({
     reviews: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Review',
-        required: true
-    }], // the schema above
-});
+        default: []
+    }]},
+    { timestamps: true }
+);
 
 const Product = mongoose.model('Product', productSchema);
 

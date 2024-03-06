@@ -18,7 +18,7 @@ exports.createCategory = async (req, res) => {
 
 // get all category
 
-exports.gellAllCategory = async (req, res) => {
+exports.gellAllCategories = async (req, res) => {
   try {
     const getCategories = await services.getAllCategoriesService();
     

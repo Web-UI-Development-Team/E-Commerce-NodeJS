@@ -1,4 +1,4 @@
-const services = require('../services/products.service');    
+const services = require('../services/product.service');    
 const validation = require('../validation/product.validator');
 
 const {getCategoryByName} = require('../services/category.service');

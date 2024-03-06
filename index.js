@@ -1,7 +1,6 @@
 require('dotenv').config();
 require('./db');
 require('mongoose')
-const jwt = require('jsonwebtoken');
 
 const express = require("express");
 
@@ -15,7 +14,7 @@ const userRouter = require("./routes/user.router");
 
 const profileRouter = require("./routes/profile.router");
 
-const productRouter = require('./routes/products.router');
+const productRouter = require('./routes/product.router');
 
 const stripeRouter = require("./routes/stripe.router");
 
@@ -27,7 +26,9 @@ const cartRouter = require('./routes/cart.router');
 
 const categoryRouter = require('./routes/category.router');
 
-const reviewAndRatingRouter = require('./routes/reviewAndRate.router');
+const reviewRouter = require('./routes/review.router');
+
+const ratingRouter = require('./routes/rating.router');
 
 const auth = require('./middleware/auth');
 
@@ -49,7 +50,7 @@ app.use('/api/v1/orders/', orderRouter);
 
 app.use('/api/v1/stripe', stripeRouter);
 
-app.use('/api/v1/products', reviewAndRatingRouter);
+app.use('/api/v1/products', reviewRouter, ratingRouter);
 
 app.use(admin);
 

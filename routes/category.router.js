@@ -1,9 +1,10 @@
 const express = require('express');
+const admin = require('../middleware/admin')
 
-const {createCategory, gellAllCategory,getProductsByCategory, filteredCategories } = require('../controllers/category.controller'); 
+const {createCategory, gellAllCategories,getProductsByCategory, filteredCategories } = require('../controllers/category.controller'); 
 const router = express.Router();  
 
-router.route('/').get(gellAllCategory).post(createCategory) ;
+router.route('/').get(gellAllCategories).post(createCategory, admin) ;
 router.route('/:id/products').get(getProductsByCategory);
 router.get("/filter/categories",filteredCategories)
 module.exports = router; 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
-const productSerivces = require('../services/products.service');
+const productSerivces = require('../services/product.service');
 const userServices = require('../services/user.service');
 const cartServices = require('../services/cart.service');
 
@@ -33,8 +33,6 @@ const getCurrentUserCart = async (req, res) => {
     }
 }
 
-
-
 const addProduct = async (req, res) => {
     const { error, value } = validator.cartValidation(req.body);
 
@@ -57,36 +55,37 @@ const addProduct = async (req, res) => {
 
         const isProduct = await productSerivces.getProductByIdService(product);
 
+        if (!isProduct) return res.status(404).json("product not found");
 
-        //////////
-        const cart= await cartServices.getCurrentUserCartService(user._id);
-        for(let i=0;i<(cart.length);i++){
-                // console.log( cart[i].quantity);
+        const carts = await cartServices.getCurrentUserCartService(user._id);
 
-                if(cart[i].product._id==product){
-                    // console.log("good job");
-                    const newQuantity=cart[i].quantity+= +quantity;
-                    console.log(newQuantity); 
-                    await cartServices.updateCartService(user._id,cart[i].product._id,newQuantity);
-                    res.send();
-                     return;
-                   
+        for (let i = 0; i < (carts.length); i++) {
+            if (carts[i].product._id == product) {
+                const newQuantity = carts[i].quantity += +quantity;
+
+                let isAvaliable = await checkStock(product, newQuantity);
+
+                if(isAvaliable){
+                    res.status(501).send({message: "quantity not avaliable in stock"});
+                    return;
                 }
 
-                // if((cart[i].quantity)==5){
-                //     console.log("hi");
-                // }
+                await cartServices.updateCartService(user._id, carts[i].product._id, newQuantity);
+                res.status(200).send(value);
+                return;
+            }
         }
-        //////////
 
-        if (!isProduct) return res.status(404).json("product not found");
-        // console.log(isProduct);
+        let isAvaliable = await checkStock(product, quantity);
+
+        if(isAvaliable){
+            res.status(501).send({message: "quantity not avaliable in stock"});
+            return;
+        }
 
         await cartServices.createCartService({ user: user._id, product, quantity });
 
-        await userServices.updateUserCartService(user.email, user.cart)
-
-        res.status(200).json(user.cart);
+        res.status(200).send(value);
     }
     catch (e) {
         console.log(e);
@@ -111,21 +110,18 @@ const updateProduct = async (req, res) => {
             return res.status(404).json("User not found");
         }
 
-        // Find the product in the shopping cart by its ID
-
         const isProduct = await productSerivces.getProductByIdService(productId);
 
         if (!isProduct) return res.status(404).json("product not found");
 
         const updated = await cartServices.updateCartService(user._id, productId, quantity);
         res.json(updated)
-        // console.log(updated);
-
     } catch (error) {
         console.error("Error updating product:", error);
         res.status(500).json("Server error");
     }
 }
+
 const deleteProduct = async (req, res) => {
     const productId = req.params.productId;
 
@@ -168,6 +164,17 @@ const clearCart = async (req, res) => {
         res.status(500).json("Server error");
     }
 }
+
+async function checkStock(prdouctId, quantity) {
+    const product = await productSerivces.getProductByIdService(prdouctId);
+
+    if(+product.stock >= +quantity) {
+        return false;
+    }
+
+    return true;
+}
+
 module.exports = {
     getCurrentUserCart,
     addProduct,

@@ -6,9 +6,17 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: [true, "duplicated category"], 
-    } 
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: String,
+      required: true,
+    },
   }, 
-  { timestamps: true } // will create 2 fields createdat, updated at 
+  { timestamps: true }
 ); 
 const categoryModel = mongoose.model("Category", categorySchema);
 module.exports = categoryModel; 
