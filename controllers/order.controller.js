@@ -46,7 +46,7 @@ const newOrder = async (req, res) => {
         const token = req.headers["jwt"];
         const {shippingAddress, city, phone} = req.body;
 
-        console.log(shippingAddress, city, phone);
+        // console.log(shippingAddress, city, phone);
 
         if (!token) return res.status(401).send({ message: "unauthorized user" });
 
