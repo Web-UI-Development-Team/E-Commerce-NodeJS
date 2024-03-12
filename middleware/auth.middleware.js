@@ -19,11 +19,6 @@ const auth = async (req, res, next) => {
     catch (e) {
         return res.status(401).send({ message: e.message })
     }
-
-
 }
-// const generateToken = (user) => {
-//     return jwt.sign({ email: user.email }, "myjwtsecret", { expiresIn: '24h' });
-// };
 
 module.exports = auth;

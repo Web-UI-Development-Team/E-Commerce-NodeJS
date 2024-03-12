@@ -33,9 +33,9 @@ const reviewRouter = require('./routes/review.router');
 
 const ratingRouter = require('./routes/rating.router');
 
-const auth = require('./middleware/auth');
+const auth = require('./middleware/auth.middleware');
 
-const admin = require('./middleware/admin');
+const admin = require('./middleware/admin.middleware');
 
 app.use("/api/v1/users", userRouter);
 

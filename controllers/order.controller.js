@@ -40,7 +40,7 @@ const getSpecificOrder = async (req, res) => {
     }
 }
 
-const newOrder = async (req, res) => {
+const createNewOrder = async (req, res) => {
     try {
         /* User Data */
         const token = req.headers["jwt"];
@@ -105,6 +105,6 @@ const cancelOrder = async (req, res) => {
 module.exports = {
     getAllOrders,
     getSpecificOrder,
-    newOrder,
+    createNewOrder,
     cancelOrder
 }

@@ -1,16 +1,15 @@
 const express = require('express');
-const { getAllOrders, getSpecificOrder, newOrder, cancelOrder } = require('../controllers/order.controller');
-const auth = require('../middleware/auth')
-const admin = require('../middleware/admin')
-
 const router = express.Router();
 
-router.get('/', admin, getAllOrders);
+const controllers = require('../controllers/order.controller');
+const admin = require('../middleware/admin.middleware');
 
-router.get('/:id', getSpecificOrder);
+router.get('/', admin, controllers.getAllOrders);
 
-router.patch('/:id/cancel', cancelOrder);
+router.get('/:id', controllers.getSpecificOrder);
 
-router.post('/', newOrder);
+router.patch('/:id/cancel', controllers.cancelOrder);
+
+router.post('/', controllers.createNewOrder);
 
 module.exports = router;

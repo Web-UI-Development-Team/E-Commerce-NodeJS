@@ -1,37 +1,42 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 
 const productSchema = mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: [true, "title is required"],
+        unique: [true, "duplicated product"],
     },
     description: {
         type: String,
-        required: true
+        required: [true, "description is required"]
     },
     price: {
         type: Number,
-        required: true
+        required: true,
+        required: [true, "price is required"]
     },
     discount: {
         type: Number,
     },
     stock: {
         type: Number,
-        required: true
+        required: true,
+        required: [true, "stock is required"]
     },
     brand: {
         type: String,
-        required: true
+        required: true,
+        required: [true, "branc is required"]
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
-        required: [true, 'user is required']
+        required: [true, 'category is required']
     },
     thumbnail: {
         type: String,
-        required: true
+        required: [true, 'thumbnail is required']
     },
     images: {
         type: [String],
@@ -47,6 +52,8 @@ const productSchema = mongoose.Schema({
     }]},
     { timestamps: true }
 );
+
+productSchema.plugin(mongoosePaginate);
 
 const Product = mongoose.model('Product', productSchema);
 

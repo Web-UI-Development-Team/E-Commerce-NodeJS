@@ -1,9 +1,21 @@
-const services = require('../services/product.service');    
+const services = require('../services/product.service');
 const validation = require('../validation/product.validator');
 
-const {getCategoryByName} = require('../services/category.service');
+const { getCategoryByName } = require('../services/category.service');
 
-const getAllProducts = async (req, res) => res.send(await services.getAllProductsService());
+const getAllProducts = async (req, res) => {
+    const { startIndex, endIndex } = req.pagination;
+    const data = await services.getAllProductsService();
+
+    const products = data.slice(startIndex, endIndex);
+
+    if (!products[0]) {
+        res.status(401).send({ message: "there is no products to show" });
+        return;
+    }
+
+    res.status(200).send(products);
+};
 
 const getProductById = async (req, res) => {
     const product = await services.getProductByIdService(req.params.id);
@@ -53,33 +65,33 @@ const deleteProduct = async (req, res) => {
     res.send(product);
 }
 
-const productSearch = async(req,res)=>{
-    try{
+const productSearch = async (req, res) => {
+    try {
         const product = await services.productSearchServices(req.params.search);
 
-        if(!product || product.length ===0){
+        if (!product || product.length === 0) {
             res.status(404).send("The product doesn't exist");
             return;
         }
 
         res.status(201).send(product);
     }
-    catch(err){
+    catch (err) {
         console.log(err);
     }
 }
 
-const filteredProducts = async(req,res)=>{
-    try{
-        let queryStr =JSON.stringify(req.query);
+const filteredProducts = async (req, res) => {
+    try {
+        let queryStr = JSON.stringify(req.query);
 
-        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match)=>`$${match}`);
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
         const queryObj = JSON.parse(queryStr);
 
         const keys = Object.keys(queryObj);
 
-        if(keys.includes("category")){
+        if (keys.includes("category")) {
             const cat = await getCategoryByName(queryObj.category);
             queryObj.category = cat[0]._id;
         }
@@ -87,14 +99,14 @@ const filteredProducts = async(req,res)=>{
         const products = await services.getFilteredProductsService(queryObj);
 
         res.status(200).json({
-            status:'success',
-            length:products.length,
-            data:{
+            status: 'success',
+            length: products.length,
+            data: {
                 products
             }
         })
     }
-    catch(error){
+    catch (error) {
         console.log(error)
     }
 }
