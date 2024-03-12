@@ -5,25 +5,13 @@ const bycrypt = require('bcrypt');
 const User = require('../models/user.model');
 
 const getUserProfile = async (req, res) => {
-    const token = req.headers["jwt"];
-
-    if (!token) {
-        return res.status(401).send({ message: "unauthorized user" });
-    }
-
-    const payload = jwt.verify(token, "myjwtsecret");
-
-    const user = await services.getUserProfileService(payload.email);
-
-    if (!user) {
-        return res.status(404).send({ message: "not found" });
-    }
+    const user = req.auth;
 
     res.send({
         name: user.name,
         email: user.email
     });
-}
+};
 
 const updateUserProfile = async (req, res) => {
     let _name, email, encryptedPassword;
@@ -34,15 +22,7 @@ const updateUserProfile = async (req, res) => {
             return res.status(422).send({ message: error.message });
         }
 
-        const token = req.headers["jwt"];
-
-        if (!token) {
-            return res.status(401).send({ message: "unauthorized user" });
-        }
-
-        const payload = jwt.verify(token, "myjwtsecret");
-
-        const user = await services.getUserProfileService(payload.email);
+        const user = req.auth;
 
         if (!req.body.email) email = user.email;
         else email = req.body.email;

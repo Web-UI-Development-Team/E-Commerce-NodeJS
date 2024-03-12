@@ -5,12 +5,12 @@ const controllers = require('../controllers/cart.controller');
 
 router.get("/", controllers.getCurrentUserCart);
 
-router.post("/add", controllers.addProduct);
+router.post("/add", controllers.addToCart);
 
-router.patch("/:productId", controllers.updateProduct);
+router.patch("/", controllers.updateCart);
 
-router.delete("/:productId", controllers.deleteProduct);
+router.delete("/:productId", controllers.deleteCart);
 
-router.delete("/", controllers.clearCart);
+// router.delete("/", controllers.clearCart);
 
 module.exports = router;

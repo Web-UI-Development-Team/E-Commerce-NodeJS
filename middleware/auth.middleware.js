@@ -11,9 +11,11 @@ const auth = async (req, res, next) => {
 
         const { email } = payload;
         const user = await User.findOne({ email });
-
+        
         if (!user) return res.status(401).send({ message: "unauthorized user" });
-
+        
+        req.auth = user;
+        
         next();
     }
     catch (e) {

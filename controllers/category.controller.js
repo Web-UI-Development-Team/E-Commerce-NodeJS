@@ -2,8 +2,6 @@ const categoryModel = require("../models/category.model");
 const services = require("../services/category.service");
 const validator = require("../validation/category.validator");
 
-// create a new category  parent 
-
 exports.createCategory = async (req, res) => {
   const { error, value } = validator.categoryValidation(req.body);
 
@@ -16,8 +14,6 @@ exports.createCategory = async (req, res) => {
   res.status(200).send(value);
 };
 
-// get all category
-
 exports.gellAllCategories = async (req, res) => {
   try {
     const getCategories = await services.getAllCategoriesService();
@@ -28,21 +24,17 @@ exports.gellAllCategories = async (req, res) => {
   }
 };
 
-//get products //belonging to a specific category//
-
 exports.getProductsByCategory = async (req,res)=>{
  try {
   const id = req.params.id;
-  
-  console.log(id);
-  // get the product by id 
+
   const getSpecificProduct = await services.getProductsByCategoryService(id);
 
   return res.status(200).send(getSpecificProduct);   
  }catch(err) {
   res.status(400).send(err);
  }
-}
+};
 
 exports.filteredCategories = async(req,res)=>{
   try{
@@ -52,7 +44,6 @@ exports.filteredCategories = async(req,res)=>{
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match)=>`$${match}`);
 
     const queryObj = JSON.parse(queryStr);
-    //console.log(queryObj);
     
     const categories = await services.getFilteredCategoriesService(queryObj);
 
@@ -67,6 +58,4 @@ exports.filteredCategories = async(req,res)=>{
   catch(error){
     console.log(error)
   }
-}
-
-
+};

@@ -12,8 +12,6 @@ const paginate = (pageSize) => {
                 endIndex
             };
 
-            console.log(data);
-
             next();
         } catch (e) {
             return res.status(401).send({ message: e.message })

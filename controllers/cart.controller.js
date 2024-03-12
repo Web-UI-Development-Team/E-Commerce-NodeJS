@@ -31,9 +31,9 @@ const getCurrentUserCart = async (req, res) => {
         console.log(e);
         res.status(500).json("server error")
     }
-}
+};
 
-const addProduct = async (req, res) => {
+const addToCart = async (req, res) => {
     const { error, value } = validator.cartValidation(req.body);
 
     if (error) {
@@ -43,16 +43,8 @@ const addProduct = async (req, res) => {
     const { product, quantity } = req.body;
 
     try {
-        const token = req.headers['jwt'];
-
-        if (!token) return res.status(401).send({ message: "unauthorized user" });
-
-        const payload = jwt.verify(token, 'myjwtsecret');
-
-        const user = await userServices.getUserService(payload.email);
-
-        if (!user) return res.status(401).send({ message: "unauthorized user" });
-
+        const user = req.auth;
+       
         const isProduct = await productSerivces.getProductByIdService(product);
 
         if (!isProduct) return res.status(404).json("product not found");
@@ -88,73 +80,51 @@ const addProduct = async (req, res) => {
         res.status(200).send(value);
     }
     catch (e) {
-        console.log(e);
-        res.status(500).json("server error")
+        res.status(500).send({message: e.message});
     }
 };
 
-const updateProduct = async (req, res) => {
-    const productId = req.params.productId;
-    const quantity = parseInt(req.body.quantity);
+const updateCart = async (req, res) => {
+    const carts = req.body.carts;
+    const user = req.auth;
 
     try {
-        const token = req.headers["jwt"];
 
-        if (!token) return res.status(401).send({ message: "unauthorized user" });
+        for(let i = 0; i < carts.length; i++)
+        {
+            const isProduct = await productSerivces.getProductByIdService(carts[i].productId);
 
-        const payload = jwt.verify(token, 'myjwtsecret');
-
-        const user = await userServices.getUserService(payload.email);
-
-        if (!user) {
-            return res.status(404).json("User not found");
+            if (!isProduct) return res.status(404).json("product not found");
+    
+            await cartServices.updateCartService(user._id, carts[i].productId, carts[i].quantity);
         }
 
-        const isProduct = await productSerivces.getProductByIdService(productId);
-
-        if (!isProduct) return res.status(404).json("product not found");
-
-        const updated = await cartServices.updateCartService(user._id, productId, quantity);
-        res.json(updated)
+        res.status(200).send({message: "cart updated successfuly"});
     } catch (error) {
         console.error("Error updating product:", error);
         res.status(500).json("Server error");
     }
-}
+};
 
-const deleteProduct = async (req, res) => {
+const deleteCart = async (req, res) => {
     const productId = req.params.productId;
 
     try {
-        const token = req.headers['jwt'];
-
-        if (!token) return res.status(401).send({ message: "unauthorized user" });
-
-        const payload = jwt.verify(token, 'myjwtsecret');
-
-        const user = await userServices.getUserService(payload.email);
-
-        if (!user) return res.status(401).json({ message: "Unauthorized user" });
+        const user = req.auth;
 
         await cartServices.deleteCartService(user._id, productId);
 
-        res.status(200).json({ message: "Product deleted from shopping cart successfully" });
+        res.status(200).json({ message: "product deleted from shopping cart successfully" });
     }
     catch (e) {
         console.error("Error deleting product:", e);
         res.status(500).json("Server error");
     }
-}
+};
 
 const clearCart = async (req, res) => {
     try {
-        const token = req.headers['jwt'];
-        const payload = jwt.verify(token, 'myjwtsecret');
-        const email = payload.email;
-
-        const user = await userServices.getUserService(email)
-        if (!user) return res.status(401).json({ message: "Unauthorized user" });
-
+        const user = req.auth;
 
         await cartServices.deleteAllCartService(user._id);
         res.status(200).json({ message: "All Products deleted from shopping cart successfully" });
@@ -163,7 +133,7 @@ const clearCart = async (req, res) => {
         console.error("Error deleting product:", e);
         res.status(500).json("Server error");
     }
-}
+};
 
 async function checkStock(prdouctId, quantity) {
     const product = await productSerivces.getProductByIdService(prdouctId);
@@ -173,12 +143,12 @@ async function checkStock(prdouctId, quantity) {
     }
 
     return true;
-}
+};
 
 module.exports = {
     getCurrentUserCart,
-    addProduct,
-    updateProduct,
-    deleteProduct,
+    addToCart,
+    updateCart,
+    deleteCart,
     clearCart
 }

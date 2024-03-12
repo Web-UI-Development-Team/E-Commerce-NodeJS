@@ -8,16 +8,7 @@ exports.addrating = async (req, res) => {
 
   const productId = req.params.id;
 
-  const token = req.headers["jwt"];
-
-  if (!token) {
-    res.status(401).send({ message: "unauthorized user" });
-    return;
-  }
-
-  const payload = jwt.verify(token, "myjwtsecret");
-
-  const user = await userServices.getUserService(payload.email);
+  const user = req.auth;
 
   const isRated = await ratingServices.getUserRating({ user: user._id, product: productId });
 
@@ -33,7 +24,7 @@ exports.addrating = async (req, res) => {
   await calcRating(productId);
 
   res.send({ rating });
-}
+};
 
 async function calcRating(productId) {
   var sum = 0;
@@ -46,4 +37,4 @@ async function calcRating(productId) {
   let avg = Math.ceil(sum / rates.length);
 
   productSerivces.updateProductRateService(productId, avg);
-}
+};

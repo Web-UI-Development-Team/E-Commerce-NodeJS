@@ -14,7 +14,7 @@ const calcTotalPrice = (order) => {
     }
 
     return totalPrice;
-}
+};
 
 const getAllOrders = async (req, res) => {
     try {
@@ -24,7 +24,7 @@ const getAllOrders = async (req, res) => {
     catch (e) {
         res.status(500).json(e, { message: 'Internal server error' });
     }
-}
+};
 
 const getSpecificOrder = async (req, res) => {
     try {
@@ -38,25 +38,12 @@ const getSpecificOrder = async (req, res) => {
     catch (e) {
         res.status(500).json(e, { message: 'Internal server error' });
     }
-}
+};
 
 const createNewOrder = async (req, res) => {
     try {
-        /* User Data */
-        const token = req.headers["jwt"];
-        const {shippingAddress, city, phone} = req.body;
+        const user = req.auth;
 
-        // console.log(shippingAddress, city, phone);
-
-        if (!token) return res.status(401).send({ message: "unauthorized user" });
-
-        const payload = jwt.verify(token, "myjwtsecret");
-
-        const user = await userServices.getUserService(payload.email);
-
-        if (!user) return res.status(401).send({ message: "unauthorized user" });
-        
-        /* Order Data */
         const orderItems = await cartServices.getCurrentUserCartService(user._id);
         
         if (orderItems.length == 0) return res.status(401).send({ message: "cart is empty" });
@@ -83,7 +70,7 @@ const createNewOrder = async (req, res) => {
     catch (e) {
         res.status(500).json(e, { message: 'Internal server error' });
     }
-}
+};
 
 const cancelOrder = async (req, res) => {
     try {
@@ -100,7 +87,7 @@ const cancelOrder = async (req, res) => {
     catch (e) {
         res.status(500).json(e);
     }
-}
+};
 
 module.exports = {
     getAllOrders,
