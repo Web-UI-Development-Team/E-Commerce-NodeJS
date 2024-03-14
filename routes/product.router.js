@@ -5,7 +5,7 @@ const controllers = require("../controllers/product.controller");
 const admin = require("../middleware/admin.middleware");
 const paginate = require("../middleware/pagination.middleware");
 
-// router.get("/", controllers.getAllProducts);
+//router.get("/", controllers.getAllProducts);
 
 router.get("/", paginate(4), controllers.getAllProducts);
 
