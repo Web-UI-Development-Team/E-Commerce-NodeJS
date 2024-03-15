@@ -11,7 +11,7 @@ const createNewUser = async (req, res) => {
     return res.status(422).send({ message: error.message });
   }
 
-  const { name, email, password, isAdmin } = req.body;
+  const { email, password } = req.body;
 
   const user = await service.getUserService(email);
 
@@ -22,13 +22,11 @@ const createNewUser = async (req, res) => {
   }
 
   const encryptedPassword = await bcrypt.hash(password, 10);
+  delete req.body.password;
+  req.body.encryptedPassword = encryptedPassword;
 
-  const newUser = await service.createNewUserService({
-    name,
-    email,
-    encryptedPassword,
-    isAdmin,
-  });
+
+  const newUser = await service.createNewUserService(req.body);
 
   res.send(newUser);
 };

@@ -92,6 +92,13 @@ const updateCart = async (req, res) => {
 
         for(let i = 0; i < carts.length; i++)
         {
+            let isAvaliable = await checkStock(carts[i].productId, carts[i].quantity);
+
+            if(isAvaliable){
+                res.status(501).send({message: "quantity not avaliable in stock"});
+                return;
+            }
+            
             const isProduct = await productSerivces.getProductByIdService(carts[i].productId);
 
             if (!isProduct) return res.status(404).json("product not found");

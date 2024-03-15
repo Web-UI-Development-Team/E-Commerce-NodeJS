@@ -10,13 +10,30 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    phone: {
+        type: String,
+        required: true,
+    },
+    image: {
+        type: String,
+        required: true
+    },
+    wishList: [{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Product',
+        default: []
+    }],
     encryptedPassword: {
         type: String,
         required: true,
     },
     isAdmin: {
         type: Boolean,
-        required: true,
+        default: false,
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 });
 

@@ -9,7 +9,9 @@ const getUserProfile = async (req, res) => {
 
     res.send({
         name: user.name,
-        email: user.email
+        email: user.email,
+        phone: user.phone,
+        image: user.image
     });
 };
 
