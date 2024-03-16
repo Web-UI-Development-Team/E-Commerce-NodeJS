@@ -110,7 +110,7 @@ const login = async (req, res) => {
     const user = await service.getUserService(email);
 
     if (!user) {
-      res.status(401).send({ message: "Incorrect email or password" });
+      return res.status(401).send({ message: "Incorrect email or password" });
     }
 
     if (!(await bcrypt.compare(password, user.encryptedPassword))) {
