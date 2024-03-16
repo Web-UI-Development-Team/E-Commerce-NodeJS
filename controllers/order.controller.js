@@ -5,12 +5,13 @@ const jwt = require('jsonwebtoken');
 const orderServices = require("../services/order.service");
 const cartServices = require("../services/cart.service");
 const userServices = require("../services/user.service");
+const { compareSync } = require('bcrypt');
 
-const calcTotalPrice = (order) => {
+const calcTotalPrice = (orderItems) => {
     var totalPrice = 0;
 
-    for(var i = 0; i < order.length; i++) {
-        totalPrice += order[i].product.price * order[i].quantity;
+    for (var i = 0; i < orderItems.length; i++) {
+        totalPrice += orderItems[i].price * orderItems[i].quantity;
     }
 
     return totalPrice;
@@ -41,17 +42,30 @@ const getSpecificOrder = async (req, res) => {
 };
 
 const createNewOrder = async (req, res) => {
+    const { shippingAddress, city, phone } = req.body;
+
     try {
         const user = req.auth;
 
-        const orderItems = await cartServices.getCurrentUserCartService(user._id);
-        
+        var orderItems = await cartServices.getCurrentUserCartService(user._id);
+
+        orderItems = orderItems.map((item) => {
+            return { 
+                title: item.product.title, 
+                price: item.product.price, 
+                thumbnail: item.product.thumbnail,
+                quantity: item.quantity
+             };
+        })
+
+        console.log(orderItems)
+
         if (orderItems.length == 0) return res.status(401).send({ message: "cart is empty" });
 
         const totalPrice = calcTotalPrice(orderItems);
 
         console.log(orderItems);
-        
+
         const data = {
             orderItems,
             shippingAddress,
@@ -68,7 +82,7 @@ const createNewOrder = async (req, res) => {
         res.status(201).json(newOrder);
     }
     catch (e) {
-        res.status(500).json(e, { message: 'Internal server error' });
+        res.status(500).send({ message: e.message });
     }
 };
 
