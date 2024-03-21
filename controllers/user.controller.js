@@ -117,7 +117,7 @@ const login = async (req, res) => {
       return res.status(401).send({ message: "Incorrect email or password" });
     }
 
-    const token = jwt.sign({ email }, "myjwtsecret", { expiresIn: "1h" });
+    const token = jwt.sign({ email }, "myjwtsecret", { expiresIn: "24h" });
     res
       .header({ jwt: token })
       .send({ token: token, message: "access granted" });

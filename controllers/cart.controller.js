@@ -62,7 +62,7 @@ const addToCart = async (req, res) => {
                     return;
                 }
 
-                await cartServices.updateCartService(user._id, carts[i].product._id, newQuantity);
+                await cartServices.updateCartService(user._id, carts[i].product._id, {quantity: newQuantity});
                 res.status(200).send(value);
                 return;
             }
@@ -103,7 +103,7 @@ const updateCart = async (req, res) => {
 
             if (!isProduct) return res.status(404).json("product not found");
     
-            await cartServices.updateCartService(user._id, carts[i].productId, carts[i].quantity);
+            await cartServices.updateCartService(user._id, carts[i].productId, {quantity: carts[i].quantity});
         }
 
         res.status(200).send({message: "cart updated successfuly"});

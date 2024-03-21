@@ -2,7 +2,16 @@ const Cart = require('../models/cart.model');
 
 const getCurrentUserCartService = async id =>{
     try{
-        return await Cart.find({user: id}).select({product: 1, quantity: 1, _id: 0}).populate("product");
+        return await Cart.find({user: id}).select({product: 1, quantity: 1, isInWishList: 1, _id: 0}).populate("product");
+    }
+    catch(e){
+        console.log("error : ",e);
+    }
+}
+
+const getCartByProductIdService = async (id, productId) =>{
+    try{
+        return await Cart.find({user: id, product: productId}).select({product: 1, quantity: 1, isInWishList: 1, _id: 0}).populate("product");
     }
     catch(e){
         console.log("error : ",e);
@@ -18,9 +27,9 @@ const createCartService = async (body) => {
     }
 }
 
-const updateCartService = async (user, product, quantity) => {
+const updateCartService = async (user, product, body) => {
     try{
-        return await Cart.updateOne({user, product}, {quantity});
+        return await Cart.updateOne({user, product}, body);
     }
     catch(e){
         console.log("error : ",e);
@@ -47,6 +56,7 @@ const deleteAllCartService = async (user) => {
 
 module.exports = {
     getCurrentUserCartService,
+    getCartByProductIdService,
     createCartService,
     updateCartService,
     deleteCartService,
