@@ -6,10 +6,11 @@ const admin = require('../middleware/admin.middleware');
 
 router.get('/', controllers.getAllOrders);
 
-router.get('/:id', controllers.getSpecificOrder);
+router.get('/:id', controllers.getSpecificOrder); 
 
 router.patch('/:id/cancel', controllers.cancelOrder);
 
 router.post('/', controllers.createNewOrder);
 
-module.exports = router;
+module.exports = router; 
+

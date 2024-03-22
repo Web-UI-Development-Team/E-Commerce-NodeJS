@@ -47,7 +47,7 @@ const createNewOrder = async (req, res) => {
     try {
         const user = req.auth;
 
-        var orderItems = await cartServices.getCurrentUserCartService(user._id);
+        var orderItems = await cartServices.getCurrentUserCartService(user._id); 
 
         orderItems = orderItems.map((item) => {
             return { 
@@ -88,12 +88,12 @@ const createNewOrder = async (req, res) => {
 
 const cancelOrder = async (req, res) => {
     try {
-        const orderId = req.params.id;
+        const orderId = req.params.id; 
 
-        const updatedOrder = await orderServices.updateOrderService(orderId, "Canceled");
+        const updatedOrder = await orderServices.updateOrderService(orderId, "Canceled"); 
 
         if (!updatedOrder) {
-            return res.status(404).json({ message: 'Order not found' });
+            return res.status(404).json({ message: 'Order not found' }); 
         }
 
         res.json({ message: 'Order cancelled successfully', order: updatedOrder });
