@@ -73,7 +73,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const user = await service.deleteUserService(req.params.id);
-  if (!product) {
+  if (!user) {
     res
       .status(404)
       .send("The product with id: " + req.params.id + " not exists");
