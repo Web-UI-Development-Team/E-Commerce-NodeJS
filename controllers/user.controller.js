@@ -35,12 +35,14 @@ const getAllUsers = async (req, res) => {
   const data = await service.getAllUsersServices();
   console.log(data);
 
+  const {startIndex, endIndex} = req.pagination;
+
   if (!data) {
     res.status(401).send({ message: "There is no products" });
     return;
   }
 
-  res.status(200).send(data);
+  res.status(200).send(data.slice(startIndex, endIndex));
 };
 
 const getUserById = async (req, res) => {

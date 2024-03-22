@@ -8,7 +8,7 @@ const validateNewUser = (user) => {
     name: joi.string().min(5).max(20).required(),
     email: joi.string().regex(emailPattern).required(),
     phone: joi.string().regex(phonePattern).min(12).max(12).required(),
-    image: joi.string().required(),
+    image: joi.string(),
     password: joi.string().min(8).required(),
     isAdmin: joi.boolean(),
     isDeleted: joi.boolean(),

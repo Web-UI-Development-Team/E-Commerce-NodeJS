@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        required: true
+        default: "https://i.pinimg.com/736x/62/40/7c/62407c28a46d83340a2eec55a640e4ad.jpg"
     },
     wishList: [{
         type:mongoose.Schema.Types.ObjectId,
