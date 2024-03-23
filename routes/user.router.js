@@ -3,8 +3,9 @@ const router = express.Router();
 
 const controllers = require("../controllers/user.controller");
 const admin = require("../middleware/admin.middleware");
+const paginate = require("../middleware/pagination.middleware");
 
-router.get("/", admin, controllers.getAllUsers);
+router.get("/", admin, paginate(1), controllers.getAllUsers);
 
 router.get("/:id", admin, controllers.getUserById);
 

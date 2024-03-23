@@ -1,4 +1,5 @@
 const services = require("../services/product.service");
+const categoryServices = require("../services/category.service")
 const validation = require("../validation/product.validator");
 
 const { getCategoryByName } = require("../services/category.service");
@@ -6,7 +7,7 @@ const { getCategoryByName } = require("../services/category.service");
 const getAllProducts = async (req, res) => {
   const { startIndex, endIndex } = req.pagination;
   const data = await services.getAllProductsService();
-  console.log(data);
+  console.log(startIndex, endIndex);
 
   const products = data.slice(startIndex, endIndex);
 
@@ -15,7 +16,7 @@ const getAllProducts = async (req, res) => {
     return;
   }
 
-  res.status(200).send(data);
+  res.status(200).send(products);
 };
 
 const getProductById = async (req, res) => {
@@ -35,6 +36,15 @@ const createProduct = async (req, res) => {
     return res.status(400).send({ message: error.message });
   }
 
+  const category = await categoryServices.getCategoryByName(req.body.category);
+
+  if (!category) {
+    return res.status(404).send({ message: "category not found" });
+  }
+  
+  value.category = category[0]._id;
+  
+  console.log(value);
   res.send(await services.createNewProductService(value));
 };
 
@@ -53,9 +63,17 @@ const updateProduct = async (req, res) => {
     return res.status(400).send({ message: "Please enter valid data" });
   }
 
-  await services.updateProductService(req.params.id, req.body);
+  if (req.body.category) {
+    const category = categoryServices.getCategoryByName(req.body.category);
 
-  res.send(await services.getProductByIdService(req.params.id));
+    if (!category) {
+      return res.status(404).send({ message: "category not found" });
+    }
+
+    value.category = category[0]._id;
+  }
+
+  res.send(await services.updateProductService(req.params.id, value));
 };
 
 const deleteProduct = async (req, res) => {

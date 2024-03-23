@@ -18,7 +18,17 @@ const updateUserProfileService = async (email, body) => {
     }
 }
 
+const updateWishListService = async (email, wishList) => {
+    try {
+        return await Profile.updateOne({ email }, { wishList });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     getUserProfileService,
-    updateUserProfileService
+    updateUserProfileService,
+    updateWishListService
 }

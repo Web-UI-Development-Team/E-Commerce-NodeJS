@@ -35,12 +35,14 @@ const getAllUsers = async (req, res) => {
   const data = await service.getAllUsersServices();
   console.log(data);
 
+  const {startIndex, endIndex} = req.pagination;
+
   if (!data) {
     res.status(401).send({ message: "There is no products" });
     return;
   }
 
-  res.status(200).send(data);
+  res.status(200).send(data.slice(startIndex, endIndex));
 };
 
 const getUserById = async (req, res) => {
@@ -73,7 +75,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const user = await service.deleteUserService(req.params.id);
-  if (!product) {
+  if (!user) {
     res
       .status(404)
       .send("The product with id: " + req.params.id + " not exists");
@@ -117,7 +119,7 @@ const login = async (req, res) => {
       return res.status(401).send({ message: "Incorrect email or password" });
     }
 
-    const token = jwt.sign({ email }, "myjwtsecret", { expiresIn: "1h" });
+    const token = jwt.sign({ email }, "myjwtsecret", { expiresIn: "24h" });
     res
       .header({ jwt: token })
       .send({ token: token, message: "access granted" });
