@@ -1,4 +1,3 @@
-const { date } = require("joi");
 const service = require("../services/user.service");
 const validator = require("../validation/user.validator");
 const bcrypt = require("bcrypt");
@@ -35,7 +34,7 @@ const getAllUsers = async (req, res) => {
   const data = await service.getAllUsersServices();
   console.log(data);
 
-  const {startIndex, endIndex} = req.pagination;
+  const { startIndex, endIndex } = req.pagination;
 
   if (!data) {
     res.status(401).send({ message: "There is no products" });
@@ -128,6 +127,11 @@ const login = async (req, res) => {
   }
 };
 
+const uploadImage = async (req, res) => {
+  console.log(req.file);
+  res.status(200).send(req.file.originalname);
+}
+
 module.exports = {
   createNewUser,
   getAllUsers,
@@ -136,4 +140,5 @@ module.exports = {
   deleteUser,
   userSearch,
   login,
+  uploadImage
 };

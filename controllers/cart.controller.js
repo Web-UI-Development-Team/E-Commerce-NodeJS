@@ -40,7 +40,11 @@ const addToCart = async (req, res) => {
         return res.status(422).send({ message: error.message });
     }
 
-    const { product, quantity } = req.body;
+    let { product, quantity } = req.body;
+
+    if(!quantity) {
+        quantity = 1;
+    }
 
     try {
         const user = req.auth;
