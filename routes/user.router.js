@@ -8,7 +8,7 @@ const paginate = require("../middleware/pagination.middleware");
 const multer = require('multer');
 var upload=multer({dest:"uploads/"});
 
-router.get("/", admin, paginate(1), controllers.getAllUsers);
+router.get("/", admin, paginate(2), controllers.getAllUsers);
 
 router.get("/:id", admin, controllers.getUserById);
 

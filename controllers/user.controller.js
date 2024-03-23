@@ -32,16 +32,19 @@ const createNewUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   const data = await service.getAllUsersServices();
-  console.log(data);
 
-  const { startIndex, endIndex } = req.pagination;
+  const { startIndex, endIndex, limit } = req.pagination;
+
+  const pages = Math.ceil(data.length / limit);
+
+  console.log(pages);
 
   if (!data) {
     res.status(401).send({ message: "There is no products" });
     return;
   }
 
-  res.status(200).send(data.slice(startIndex, endIndex));
+  res.status(200).send({users: data.slice(startIndex, endIndex), pages});
 };
 
 const getUserById = async (req, res) => {
