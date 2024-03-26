@@ -5,18 +5,20 @@ const validation = require("../validation/product.validator");
 const { getCategoryByName } = require("../services/category.service");
 
 const getAllProducts = async (req, res) => {
-  const { startIndex, endIndex } = req.pagination;
+  const { startIndex, endIndex, limit } = req.pagination;
+
   const data = await services.getAllProductsService();
-  console.log(startIndex, endIndex);
 
   const products = data.slice(startIndex, endIndex);
+
+  const pages = Math.ceil(data.length / limit);
 
   if (!products[0]) {
     res.status(401).send({ message: "there is no products to show" });
     return;
   }
 
-  res.status(200).send(products);
+  res.status(200).send({ products, pages });
 };
 
 const getProductById = async (req, res) => {
@@ -41,9 +43,9 @@ const createProduct = async (req, res) => {
   if (!category) {
     return res.status(404).send({ message: "category not found" });
   }
-  
+
   value.category = category[0]._id;
-  
+
   console.log(value);
   res.send(await services.createNewProductService(value));
 };

@@ -1,4 +1,3 @@
-const { date } = require("joi");
 const service = require("../services/user.service");
 const validator = require("../validation/user.validator");
 const bcrypt = require("bcrypt");
@@ -33,16 +32,19 @@ const createNewUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   const data = await service.getAllUsersServices();
-  console.log(data);
 
-  const {startIndex, endIndex} = req.pagination;
+  const { startIndex, endIndex, limit } = req.pagination;
+
+  const pages = Math.ceil(data.length / limit);
+
+  console.log(pages);
 
   if (!data) {
     res.status(401).send({ message: "There is no products" });
     return;
   }
 
-  res.status(200).send(data.slice(startIndex, endIndex));
+  res.status(200).send({users: data.slice(startIndex, endIndex), pages});
 };
 
 const getUserById = async (req, res) => {
@@ -122,11 +124,16 @@ const login = async (req, res) => {
     const token = jwt.sign({ email }, "myjwtsecret", { expiresIn: "24h" });
     res
       .header({ jwt: token })
-      .send({ token: token, message: "access granted" });
+      .send({ token: token, message: "access granted", role: user.isAdmin ? 'admin' : 'user'});
   } catch (e) {
     res.status(500).send(e.message);
   }
 };
+
+const uploadImage = async (req, res) => {
+  console.log(req.file);
+  res.status(200).send(req.file.originalname);
+}
 
 module.exports = {
   createNewUser,
@@ -136,4 +143,5 @@ module.exports = {
   deleteUser,
   userSearch,
   login,
+  uploadImage
 };

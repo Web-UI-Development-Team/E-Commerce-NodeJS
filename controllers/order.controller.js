@@ -27,6 +27,18 @@ const getAllOrders = async (req, res) => {
     }
 };
 
+const getUserOrders = async (req, res) => {
+    const user = req.auth;
+
+    try {
+        const orders = await orderServices.getUserOrdersService(user._id);
+        res.json(orders);
+    }
+    catch (e) {
+        res.status(500).json(e, { message: 'Internal server error' });
+    }
+};
+
 const getSpecificOrder = async (req, res) => {
     try {
         const orderId = req.params.id;
@@ -105,6 +117,7 @@ const cancelOrder = async (req, res) => {
 
 module.exports = {
     getAllOrders,
+    getUserOrders,
     getSpecificOrder,
     createNewOrder,
     cancelOrder
