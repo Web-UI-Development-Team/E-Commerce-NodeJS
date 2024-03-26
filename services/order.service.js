@@ -8,6 +8,14 @@ const getAllOrdersService = async () => {
     }
 };
 
+const getUserOrdersService = async (user) => {
+    try {
+        return await Order.find({user}).populate('orderItems').populate('user');
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 const getOrderByIdService = async (id) => {
     try {
         return await Order.findById(id).populate('orderItems').populate('user');
@@ -34,6 +42,7 @@ const updateOrderService = async (id, status) => {
 
 module.exports = {
     getAllOrdersService,
+    getUserOrdersService,
     getOrderByIdService,
     createOrderService,
     updateOrderService

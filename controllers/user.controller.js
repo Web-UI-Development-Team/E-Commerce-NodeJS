@@ -124,7 +124,7 @@ const login = async (req, res) => {
     const token = jwt.sign({ email }, "myjwtsecret", { expiresIn: "24h" });
     res
       .header({ jwt: token })
-      .send({ token: token, message: "access granted" });
+      .send({ token: token, message: "access granted", role: user.isAdmin ? 'admin' : 'user'});
   } catch (e) {
     res.status(500).send(e.message);
   }

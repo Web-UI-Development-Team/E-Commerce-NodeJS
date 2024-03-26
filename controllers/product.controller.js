@@ -6,20 +6,19 @@ const { getCategoryByName } = require("../services/category.service");
 
 const getAllProducts = async (req, res) => {
   const { startIndex, endIndex, limit } = req.pagination;
+
   const data = await services.getAllProductsService();
 
   const products = data.slice(startIndex, endIndex);
 
   const pages = Math.ceil(data.length / limit);
 
-  console.log(pages);
-
   if (!products[0]) {
     res.status(401).send({ message: "there is no products to show" });
     return;
   }
 
-  res.status(200).send({products, pages});
+  res.status(200).send({ products, pages });
 };
 
 const getProductById = async (req, res) => {
@@ -44,9 +43,9 @@ const createProduct = async (req, res) => {
   if (!category) {
     return res.status(404).send({ message: "category not found" });
   }
-  
+
   value.category = category[0]._id;
-  
+
   console.log(value);
   res.send(await services.createNewProductService(value));
 };
