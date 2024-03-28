@@ -7,7 +7,7 @@ const paginate = require("../middleware/pagination.middleware");
 
 //router.get("/", controllers.getAllProducts);
 
-router.get("/", paginate(4), controllers.getAllProducts);
+router.get("/", paginate(6), controllers.getAllProducts);
 
 router.get("/:id", controllers.getProductById);
 
