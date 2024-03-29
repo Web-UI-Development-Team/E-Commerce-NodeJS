@@ -44,7 +44,7 @@ const getCategoryByName = async (name) => {
 
 const getCategoryById = async (id) => {
   try {
-    return await Category.find({ _id: id });
+    return await Category.findOne({ _id: id });
   } catch (e) {
     console.log(e);
   }
