@@ -14,10 +14,6 @@ const createNewUser = async (req, res) => {
 
   const { email, password } = req.body;
 
-  // console.log(req.file.filename)
-
-  // const imagePath = "http://localhost:3010/images/" + req.file.filename;
-
   const user = await service.getUserService(email);
 
   if (user) {
@@ -137,11 +133,6 @@ const login = async (req, res) => {
   }
 };
 
-const uploadImage = async (req, res) => {
-  console.log(req.file);
-  res.status(200).send(req.file.originalname);
-}
-
 module.exports = {
   createNewUser,
   getAllUsers,
@@ -149,6 +140,5 @@ module.exports = {
   updateUser,
   deleteUser,
   userSearch,
-  login,
-  uploadImage
+  login
 };

@@ -67,8 +67,15 @@ const addToWishList = async (req, res) => {
     res.status(200).send(updateReport);
 }
 
+const getWishList = async (req, res) => {
+    const wishList = await services.getWishListService(req.auth.email);
+
+    res.status(200).send(wishList);
+}
+
 module.exports = {
     getUserProfile,
     updateUserProfile,
+    getWishList,
     addToWishList
 }

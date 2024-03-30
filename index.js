@@ -1,11 +1,10 @@
 require("dotenv").config();
 require("./db");
 require("mongoose");
+
 const cors = require("cors");
 
 const express = require("express");
-
-const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -14,8 +13,6 @@ const path = require('path');
 app.use(express.json());
 
 app.use(cors());
-
-app.use(bodyParser.json());
 
 const port = parseInt(process.env.PORT);
 
@@ -43,17 +40,17 @@ const auth = require("./middleware/auth.middleware");
 
 const admin = require("./middleware/admin.middleware");
 
-// app.use('/images', express.static(path.join('images')))
+app.use('/images', express.static(path.join('images')))
 
 app.use("/api/v1/users", userRouter);
 
 app.use("/api/v1/products", productRouter);
 
+app.use("/api/v1/categories", categoryRouter);
+
 app.use(auth);
 
 app.use("/api/v1/profile", profileRouter);
-
-app.use("/api/v1/categories", categoryRouter);
 
 app.use("/api/v1/cart/", cartRouter);
 

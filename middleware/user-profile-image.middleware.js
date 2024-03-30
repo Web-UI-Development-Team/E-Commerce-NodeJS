@@ -19,7 +19,7 @@ const resizeImage = async (req, res, next) => {
             .toFile(filePath + filename);
 
         req.body.imagePath = '/images/user-profile/' + filename;// Use the relative path to the image
-        console.log(req.body)
+        console.log(req.body);
     }
 
     next();

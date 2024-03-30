@@ -18,6 +18,15 @@ const updateUserProfileService = async (email, body) => {
     }
 }
 
+const getWishListService = async (email) => {
+    try {
+        return await Profile.findOne({ email }, {wishList: 1, _id:0}).populate("wishList");
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 const updateWishListService = async (email, wishList) => {
     try {
         return await Profile.updateOne({ email }, { wishList });
@@ -30,5 +39,6 @@ const updateWishListService = async (email, wishList) => {
 module.exports = {
     getUserProfileService,
     updateUserProfileService,
+    getWishListService,
     updateWishListService
 }
