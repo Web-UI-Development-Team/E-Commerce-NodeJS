@@ -5,6 +5,9 @@ const controllers = require("../controllers/product.controller");
 const admin = require("../middleware/admin.middleware");
 const paginate = require("../middleware/pagination.middleware");
 
+const multer = require('multer');
+const upload = multer();
+
 //router.get("/", controllers.getAllProducts);
 
 router.get("/", paginate(6), controllers.getAllProducts);

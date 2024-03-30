@@ -7,6 +7,9 @@ const productSchema = mongoose.Schema({
         required: [true, "title is required"],
         unique: [true, "duplicated product"],
     },
+    slug: {
+        type: String,
+    },
     description: {
         type: String,
         required: [true, "description is required"]
@@ -50,7 +53,11 @@ const productSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Review',
         default: []
-    }]},
+    }],
+    isDeleted: {
+        type: Boolean,
+        default: false
+    }},
     { timestamps: true }
 );
 

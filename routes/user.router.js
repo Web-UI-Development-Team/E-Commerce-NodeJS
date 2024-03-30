@@ -1,12 +1,13 @@
 const express = require("express");
+const storage = require("../helpers/storage");
+
 const router = express.Router();
 
 const controllers = require("../controllers/user.controller");
+const {uploadUserImage, resizeImage} = require("../middleware/resize-image.middleware")
+
 const admin = require("../middleware/admin.middleware");
 const paginate = require("../middleware/pagination.middleware");
-
-const multer = require('multer');
-var upload=multer({dest:"uploads/"});
 
 router.get("/", admin, paginate(2), controllers.getAllUsers);
 
@@ -18,10 +19,10 @@ router.patch("/:id", admin, controllers.updateUser);
 
 router.delete("/:id", admin, controllers.deleteUser);
 
-router.post("/register", controllers.createNewUser);
+router.post("/register", uploadUserImage, resizeImage, controllers.createNewUser);
+
+router.post("/upload/image", uploadUserImage, resizeImage, controllers.uploadImage)
 
 router.post("/login", controllers.login);
-
-router.post("/image", upload.single('file'), controllers.uploadImage);
 
 module.exports = router;
