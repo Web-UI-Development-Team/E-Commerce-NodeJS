@@ -62,12 +62,12 @@ const createNewOrder = async (req, res) => {
         var orderItems = await cartServices.getCurrentUserCartService(user._id);
 
         orderItems = orderItems.map((item) => {
-            return { 
-                title: item.product.title, 
-                price: item.product.price, 
+            return {
+                title: item.product.title,
+                price: item.product.price,
                 thumbnail: item.product.thumbnail,
                 quantity: item.quantity
-             };
+            };
         })
 
         console.log(orderItems)
@@ -98,6 +98,24 @@ const createNewOrder = async (req, res) => {
     }
 };
 
+const changeOrderStatus = async (req, res) => {
+    try {
+        const orderId = req.params.id;
+        const { status } = req.body
+
+        const updatedOrder = await orderServices.updateOrderService(orderId, status);
+
+        if (!updatedOrder) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
+        res.json({ message: "order status change successfully to " + status, order: updatedOrder });
+    }
+    catch (e) {
+        res.status(500).json(e);
+    }
+}
+
 const cancelOrder = async (req, res) => {
     try {
         const orderId = req.params.id;
@@ -120,5 +138,6 @@ module.exports = {
     getUserOrders,
     getSpecificOrder,
     createNewOrder,
+    changeOrderStatus,
     cancelOrder
 }

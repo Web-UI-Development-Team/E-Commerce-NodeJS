@@ -11,4 +11,6 @@ router.get("/products", controllers.getAllProducts);
 
 router.get("/categories", controllers.getAllCategories);
 
+router.get("/length", controllers.getUserAndProductLength);
+
 module.exports = router;
