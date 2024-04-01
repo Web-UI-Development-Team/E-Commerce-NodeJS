@@ -10,7 +10,7 @@ const upload = multer();
 
 //router.get("/", controllers.getAllProducts);
 
-router.get("/", paginate(6), controllers.getAllProducts);
+router.get("/", paginate(8), controllers.getAllProducts);
 
 router.get("/:id", controllers.getProductById);
 
