@@ -56,12 +56,6 @@ const addToWishList = async (req, res) => {
         user.wishList.push(product);
     }
 
-    const isInCart = cartServices.getCartByProductIdService(user._id, product);
-
-    if (isInCart) {
-        cartServices.updateCartService(user._id, product, { isInWishList: user.wishList.includes(product) });
-    }
-
     const updateReport = services.updateWishListService(user.email, user.wishList);
 
     res.status(200).send(updateReport);
