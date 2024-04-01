@@ -9,10 +9,6 @@ const cartShecma = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Product'
     },
-    isInWishList: {
-        type: Boolean,
-        default: false
-    },
     quantity: {
         type: Number,
         default: 1
