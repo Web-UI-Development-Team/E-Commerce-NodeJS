@@ -18,7 +18,8 @@ const getReview = async (body) => {
     }
 }
 
+
 module.exports = {
     createNewReview,
-    getReview
+    getReview,
 }
