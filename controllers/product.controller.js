@@ -9,7 +9,7 @@ const getAllProducts = async (req, res) => {
 
   const data = await services.getAllProductsService();
 
-  const products = data.slice(startIndex, endIndex);
+  const products = data.splice(startIndex, endIndex);
 
   const pages = Math.ceil(data.length / limit);
 

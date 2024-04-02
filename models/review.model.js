@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose');
 
-const  reviewSchema =  mongoose.Schema({
+const  reviewSchema =  mongoose.Schema({ 
     title : {type : String , 
     required : [true, 'your title is required']
     },//name
@@ -9,6 +9,10 @@ const  reviewSchema =  mongoose.Schema({
       type : String,
       required : true
     }, 
+    dateOfReview:{
+      type:Date,
+      default:Date.now
+  },
     user : {
       type : mongoose.Schema.Types.ObjectId, 
       ref : 'user', 
