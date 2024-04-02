@@ -11,7 +11,7 @@ const createNewReview = async (body) => {
 
 const getReview = async (body) => {
     try {
-        return  await Review.findOne(body);;
+        return  await Review.findOne(body).populate('user');
     }
     catch (error) {
         console.log(error);
