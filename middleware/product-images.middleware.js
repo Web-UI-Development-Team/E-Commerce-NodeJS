@@ -6,7 +6,7 @@ const { uploadMultipleImages } = require("./upload-image.middleware");
 
 const path = require('path')
 
-const uploadProductImages = uploadMultipleImages("images");
+const uploadProductImages = uploadMultipleImages(["image1", "image2", "image3"]);
 
 const resizeImages = async (req, res, next) => {
     const filename = `user-profile-${uuidv4()}.png`;
@@ -14,7 +14,7 @@ const resizeImages = async (req, res, next) => {
     console.log(req.file);
 
     if (req.file) {
-        const filePath = path.join(__dirname, '../images/product-images/'); 
+        const filePath = path.join(__dirname, '../images/product-images/');
         await sharp(req.file.buffer)
             .resize(500, 500)
             .toFormat("png")

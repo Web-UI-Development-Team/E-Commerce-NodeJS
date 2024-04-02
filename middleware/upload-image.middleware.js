@@ -17,7 +17,7 @@ const multerOptions = () => {
 }
 
 const uploadSingleImage = (image) => multerOptions().array(image, 5);
-const uploadMultipleImages = (images) => multerOptions().fields(images);
+const uploadMultipleImages = (images) => multerOptions().fields(images.map(image => ({ name: image, maxCount: 5 })));
 
 module.exports = {
     uploadSingleImage,
