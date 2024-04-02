@@ -9,12 +9,14 @@ const User = require('../models/user.model');
 const getUserProfile = async (req, res) => {
     const user = req.auth;
 
+    console.log(user);
+
     res.send({
         _id: user._id,
         name: user.name,
         email: user.email,
         phone: user.phone,
-        image: user.image
+        imagePath: user.imagePath
     });
 };
 

@@ -6,7 +6,11 @@ const admin = require("../middleware/admin.middleware");
 const paginate = require("../middleware/pagination.middleware");
 
 const multer = require('multer');
-const upload = multer();
+
+const {uploadProductThumbnailImage, resizeImage} = require("../middleware/product-thumbnail-image.middleware")
+
+const {uploadProductImages, resizeImages} = require("../middleware/product-images.middleware")
+
 
 //router.get("/", controllers.getAllProducts);
 
@@ -16,7 +20,7 @@ router.get("/:id", controllers.getProductById);
 
 router.get("/search/product/:search", controllers.productSearch);
 
-router.post("/", admin, controllers.createProduct);
+router.post("/", admin, uploadProductImages, resizeImages, controllers.createProduct);
 
 router.patch("/:id", admin, controllers.updateProduct);
 

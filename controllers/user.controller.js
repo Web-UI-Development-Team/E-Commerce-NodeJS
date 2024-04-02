@@ -26,8 +26,6 @@ const createNewUser = async (req, res) => {
   delete req.body.password;
   req.body.encryptedPassword = encryptedPassword;
 
-  console.log(req.file)
-
   const newUser = await service.createNewUserService(req.body);
 
   res.send(newUser);

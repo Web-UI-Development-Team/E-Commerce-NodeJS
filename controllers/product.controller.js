@@ -32,7 +32,7 @@ const getProductById = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  const { error, value } = validation.craeteProductValidation(req.body);
+    const { error, value } = validation.craeteProductValidation(req.body);
 
   if (error) {
     return res.status(400).send({ message: error.message });
