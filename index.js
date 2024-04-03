@@ -48,6 +48,8 @@ app.use("/api/v1/products", productRouter);
 
 app.use("/api/v1/categories", categoryRouter);
 
+app.use("/api/v1/products", reviewRouter, ratingRouter);
+
 app.use(auth);
 
 app.use("/api/v1/profile", profileRouter);
@@ -57,8 +59,6 @@ app.use("/api/v1/cart/", cartRouter);
 app.use("/api/v1/orders/", orderRouter);
 
 app.use("/api/v1/stripe", stripeRouter);
-
-app.use("/api/v1/products", reviewRouter, ratingRouter);
 
 app.use(admin);
 
