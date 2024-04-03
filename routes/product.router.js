@@ -7,9 +7,9 @@ const paginate = require("../middleware/pagination.middleware");
 
 const multer = require('multer');
 
-const {uploadProductThumbnailImage, resizeImage} = require("../middleware/product-thumbnail-image.middleware")
+const { uploadProductThumbnailImage, resizeImage } = require("../middleware/product-thumbnail-image.middleware")
 
-const {uploadProductImages, resizeImages} = require("../middleware/product-images.middleware")
+const { uploadProductImages, resizeImages } = require("../middleware/product-images.middleware")
 
 
 //router.get("/", controllers.getAllProducts);

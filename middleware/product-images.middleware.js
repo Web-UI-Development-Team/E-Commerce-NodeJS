@@ -6,24 +6,32 @@ const { uploadMultipleImages } = require("./upload-image.middleware");
 
 const path = require('path')
 
-const uploadProductImages = uploadMultipleImages(['images','images']);
+const uploadProductImages = uploadMultipleImages(['productImages', 'productImages']);
 
 const resizeImages = async (req, res, next) => {
-    const filename = `user-profile-${uuidv4()}.png`;
+    var images = [];
 
-    console.log(req.file);
+    for (var i = 0; i < req.files.productImages.length; i++) {
+        const filename = `product-${uuidv4()}.png`;
 
-    if (req.file) {
-        const filePath = path.join(__dirname, '../images/product-images/');
-        await sharp(req.file.buffer)
-            .resize(500, 500)
-            .toFormat("png")
-            .png({ quality: 95 })
-            .toFile(filePath + filename);
+        if (req.files.productImages[i]) {
+            const filePath = path.join(__dirname, '../images/product-images/');
+            await sharp(req.files.productImages[i].buffer)
+                .resize(500, 500)
+                .toFormat("png")
+                .png({ quality: 95 })
+                .toFile(filePath + filename);
 
-        req.body.imagePath = process.env.IMAGEURL + '/images/product-images/' + filename;// Use the relative path to the image
-        console.log(req.body);
+            console.log(req.body);
+            if (i === 0) {
+                req.body.thumbnail = process.env.IMAGEURL + '/images/product-images/' + filename
+            } else {
+                images.push(process.env.IMAGEURL + '/images/product-images/' + filename);
+            }
+        }
     }
+
+    req.body.images = images;
 
     next();
 };
