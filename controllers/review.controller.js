@@ -62,7 +62,7 @@ exports.deleteReview = async (req, res) => {
 
   if (review) {
     const product = await productSerivces.getProductByIdService(productId);
-  
+
     product.reviews.splice(product.reviews.indexOf(review._id), 1);
 
     await productSerivces.updateProductService(productId, { reviews: product.reviews });
@@ -74,21 +74,36 @@ exports.deleteReview = async (req, res) => {
 
 }
 
-exports.isReviewed = async(req, res) => {
+exports.isReviewed = async (req, res) => {
   const productId = req.params.id;
 
   const user = req.auth;
 
   const isReviewed = await reviewServices.getReview({ user: user._id, product: productId });
 
-  if(isReviewed)
-  {
-    return res.status(200).send({isReviewed: true, reviewId: isReviewed._id});
+  if (isReviewed) {
+    return res.status(200).send({ isReviewed: true, reviewId: isReviewed._id });
   } else {
-    return res.status(200).send({isReviewed: false, reviewId: ""});
+    return res.status(200).send({ isReviewed: false, reviewId: "" });
   }
 }
 
+exports.updateReview = async (req, res) => {
+  const productId = req.params.id;
+
+  const user = req.auth;
+
+  const review = await reviewServices.getReview({ user: user._id, product: productId });
+
+  if (review) {
+
+    await reviewServices.updateReview(review._id, req.body);
+
+    return res.status(200).send({ message: "Review updated successfully" });
+  } else {
+    return res.status(404).send({ message: "This review not found" });
+  }
+}
 // exports.deletereview = async (req, res) => {
 //   const id = req.params.id;
 //   try {
