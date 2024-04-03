@@ -6,7 +6,7 @@ const { uploadMultipleImages } = require("./upload-image.middleware");
 
 const path = require('path')
 
-const uploadProductImages = uploadMultipleImages(["image1", "image2", "image3"]);
+const uploadProductImages = uploadMultipleImages(['images','images']);
 
 const resizeImages = async (req, res, next) => {
     const filename = `user-profile-${uuidv4()}.png`;

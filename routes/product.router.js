@@ -14,7 +14,7 @@ const {uploadProductImages, resizeImages} = require("../middleware/product-image
 
 //router.get("/", controllers.getAllProducts);
 
-router.get("/", controllers.getAllProducts);
+router.get("/", paginate(8), controllers.getAllProducts);
 
 router.get("/:id", controllers.getProductById);
 
