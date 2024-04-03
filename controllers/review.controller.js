@@ -104,23 +104,3 @@ exports.updateReview = async (req, res) => {
     return res.status(404).send({ message: "This review not found" });
   }
 }
-// exports.deletereview = async (req, res) => {
-//   const id = req.params.id;
-//   try {
-//     const user = req.auth;
-
-//     console.log(id);
-//     const deletedReviewId = await Review.findById(id);
-//     if (!deletedReviewId) {
-//       return res.status(404).send({ message: 'this review not found ' })
-//     }
-//     if (deletedReviewId.user.auth !== user._id)
-//       return res.status(403).json({ message: 'Unauthorized ' });
-//     await Review.findByIdAndDelete(id);
-//     return res.status(200).send({ message: 'deleted successfully' })
-
-//   } catch (error) {
-//     console.error("Error deleting review:", error.message);
-//     throw error;
-//   }
-// };
