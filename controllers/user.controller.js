@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const service = require("../services/user.service");
 const validator = require("../validation/user.validator");
 const bcrypt = require("bcrypt");
@@ -24,7 +26,6 @@ const createNewUser = async (req, res) => {
   delete req.body.password;
   req.body.encryptedPassword = encryptedPassword;
 
-
   const newUser = await service.createNewUserService(req.body);
 
   res.send(newUser);
@@ -44,7 +45,7 @@ const getAllUsers = async (req, res) => {
     return;
   }
 
-  res.status(200).send({users: data.slice(startIndex, endIndex), pages});
+  res.status(200).send({ users: data.slice(startIndex, endIndex), pages });
 };
 
 const getUserById = async (req, res) => {
@@ -124,16 +125,11 @@ const login = async (req, res) => {
     const token = jwt.sign({ email }, "myjwtsecret", { expiresIn: "24h" });
     res
       .header({ jwt: token })
-      .send({ token: token, message: "access granted", role: user.isAdmin ? 'admin' : 'user'});
+      .send({ token: token, message: "access granted", role: user.isAdmin ? 'admin' : 'user' });
   } catch (e) {
     res.status(500).send(e.message);
   }
 };
-
-const uploadImage = async (req, res) => {
-  console.log(req.file);
-  res.status(200).send(req.file.originalname);
-}
 
 module.exports = {
   createNewUser,
@@ -142,6 +138,5 @@ module.exports = {
   updateUser,
   deleteUser,
   userSearch,
-  login,
-  uploadImage
+  login
 };

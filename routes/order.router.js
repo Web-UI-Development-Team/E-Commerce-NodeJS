@@ -12,6 +12,8 @@ router.get('/:id', controllers.getSpecificOrder);
 
 router.patch('/:id/cancel', controllers.cancelOrder);
 
+router.patch('/:id', controllers.changeOrderStatus);
+
 router.post('/', controllers.createNewOrder);
 
 module.exports = router; 

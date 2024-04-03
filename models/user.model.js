@@ -14,13 +14,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    image: {
+    imagePath: {
         type: String,
-        default: "https://i.pinimg.com/736x/62/40/7c/62407c28a46d83340a2eec55a640e4ad.jpg"
+        required: true
     },
     wishList: [{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Product',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
         default: []
     }],
     encryptedPassword: {

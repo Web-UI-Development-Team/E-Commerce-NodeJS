@@ -9,12 +9,14 @@ const User = require('../models/user.model');
 const getUserProfile = async (req, res) => {
     const user = req.auth;
 
+    console.log(user);
+
     res.send({
         _id: user._id,
         name: user.name,
         email: user.email,
         phone: user.phone,
-        image: user.image
+        imagePath: user.imagePath
     });
 };
 
@@ -56,19 +58,20 @@ const addToWishList = async (req, res) => {
         user.wishList.push(product);
     }
 
-    const isInCart = cartServices.getCartByProductIdService(user._id, product);
-
-    if (isInCart) {
-        cartServices.updateCartService(user._id, product, { isInWishList: user.wishList.includes(product) });
-    }
-
     const updateReport = services.updateWishListService(user.email, user.wishList);
 
     res.status(200).send(updateReport);
 }
 
+const getWishList = async (req, res) => {
+    const wishList = await services.getWishListService(req.auth.email);
+
+    res.status(200).send(wishList);
+}
+
 module.exports = {
     getUserProfile,
     updateUserProfile,
+    getWishList,
     addToWishList
 }
