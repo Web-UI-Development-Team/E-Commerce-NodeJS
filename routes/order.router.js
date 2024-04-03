@@ -8,7 +8,7 @@ router.get('/', admin, controllers.getAllOrders);
 
 router.get('/user', controllers.getUserOrders);
 
-router.get('/:id', controllers.getSpecificOrder);
+router.get('/:id', controllers.getSpecificOrder); 
 
 router.patch('/:id/cancel', controllers.cancelOrder);
 
@@ -16,4 +16,5 @@ router.patch('/:id', controllers.changeOrderStatus);
 
 router.post('/', controllers.createNewOrder);
 
-module.exports = router;
+module.exports = router; 
+

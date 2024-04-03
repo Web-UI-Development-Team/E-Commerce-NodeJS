@@ -34,7 +34,7 @@ const createOrderService = async (data) => {
 
 const updateOrderService = async (id, status) => {
     try {
-        return await Order.updateOne({ _id: id }, { status });
+        return await Order.updateOne({ _id: id }, { status }); 
     } catch (e) {
         console.log(e);
     }
