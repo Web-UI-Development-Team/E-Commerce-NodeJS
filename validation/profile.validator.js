@@ -7,8 +7,8 @@ const validateUserProfile = (user) => {
     const schema = joi.object({
         name: joi.string().min(5).max(20),
         email: joi.string().regex(pattern),
-        phone: joi.string().regex(phonePattern).min(12).max(12),
-        image: joi.string(),
+        phone: joi.string().regex(phonePattern).min(11).max(11),
+        imagePath: joi.string(),
         password: joi.string().min(8)
     });
 

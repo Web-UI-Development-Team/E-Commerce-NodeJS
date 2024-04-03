@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     imagePath: {
         type: String,
-        required: true
+        default: 'https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg'
     },
     wishList: [{
         type: mongoose.Schema.Types.ObjectId,
