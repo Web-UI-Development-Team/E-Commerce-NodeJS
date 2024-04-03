@@ -17,21 +17,6 @@ const createProduct = joi.object({
 
 const craeteProductValidation = product => createProduct.validate(product);
 
-const updateProduct = joi.object({
-    title: joi.string().min(5).max(500),
-    description: joi.string().min(5).max(1000),
-    price: joi.number().integer(),
-    discount: joi.number(),
-    stock: joi.number().integer(),
-    brand: joi.string().min(3).max(50),
-    category: joi.string(),
-    thumbnail: joi.string(),
-    images: joi.array().items(joi.string())
-});
-
-const updateProductValidation = product => updateProduct.validate(product);
-
 module.exports = {
     craeteProductValidation,
-    updateProductValidation
 };

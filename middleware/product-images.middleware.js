@@ -17,9 +17,9 @@ const resizeImages = async (req, res, next) => {
         if (req.files.productImages[i]) {
             const filePath = path.join(__dirname, '../images/product-images/');
             await sharp(req.files.productImages[i].buffer)
-                .resize(500, 500)
+                .resize(700, 700)
                 .toFormat("png")
-                .png({ quality: 95 })
+                .png({ quality: 100 })
                 .toFile(filePath + filename);
 
             console.log(req.body);

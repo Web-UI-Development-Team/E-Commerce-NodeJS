@@ -48,12 +48,6 @@ const updateProduct = async (req, res) => {
       .send("The product with id: " + req.params.id + " not exists");
   }
 
-  const { error, value } = validation.updateProductValidation(req.body);
-
-  if (error) {
-    return res.status(400).send({ message: "Please enter valid data" });
-  }
-
   if (req.body.category) {
     const category = categoryServices.getCategoryByName(req.body.category);
 
@@ -61,10 +55,10 @@ const updateProduct = async (req, res) => {
       return res.status(404).send({ message: "category not found" });
     }
 
-    value.category = category[0]._id;
+    req.body.category = category[0]._id;
   }
 
-  res.send(await services.updateProductService(req.params.id, value));
+  res.send(await services.updateProductService(req.params.id, req.body));
 };
 
 const deleteProduct = async (req, res) => {
