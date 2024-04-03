@@ -54,17 +54,21 @@ const getSpecificOrder = async (req, res) => {
 };
 
 const createNewOrder = async (req, res) => {
-    const { shippingAddress, city, phone } = req.body;
+    const { fName, lName, shippingAddress, city, phone, state, zip } = req.body;
 
     try {
         const user = req.auth;
 
-        var orderItems = await cartServices.getCurrentUserCartService(user._id); 
+        var orderItems = await cartServices.getCurrentUserCartService(user._id);
 
         orderItems = orderItems.map((item) => {
+            if (item.product.discount) {
+                item.product.price = item.product.price - ((item.product.discount / 100) * item.product.price)
+            }
+
             return {
                 title: item.product.title,
-                price: item.product.price,
+                price: Math.ceil(item.product.price),
                 thumbnail: item.product.thumbnail,
                 quantity: item.quantity
             };
@@ -79,10 +83,14 @@ const createNewOrder = async (req, res) => {
         console.log(orderItems);
 
         const data = {
+            fName,
+            lName,
             orderItems,
             shippingAddress,
             city,
+            state,
             phone,
+            zip,
             totalPrice,
             user: user._id,
         }
@@ -118,12 +126,12 @@ const changeOrderStatus = async (req, res) => {
 
 const cancelOrder = async (req, res) => {
     try {
-        const orderId = req.params.id; 
+        const orderId = req.params.id;
 
-        const updatedOrder = await orderServices.updateOrderService(orderId, "Canceled"); 
+        const updatedOrder = await orderServices.updateOrderService(orderId, "Canceled");
 
         if (!updatedOrder) {
-            return res.status(404).json({ message: 'Order not found' }); 
+            return res.status(404).json({ message: 'Order not found' });
         }
 
         res.json({ message: 'Order cancelled successfully', order: updatedOrder });

@@ -9,23 +9,16 @@ const User = require("../models/user.model");
 require("dotenv").config();
 
 const createCheckoutSessionservices = async (req, res) => {
-  const id = req.body._id;
-  console.log(id);
+  const id = req.body.orderId;
+
   try {
     const orders = await Order.findOne({ _id: id });
-    console.log(orders);
-    //console.log(orders)
-    //console.log(orders.user);
-    //console.log(orders.orderItems)
+
     const productItems = [];
     for (const product of orders.orderItems) {
-      console.log("this is product loop", product);
-      //console.log(product.product);
-      //console.log(product.quantity);
       const productData = await Product.find({ title: product.title })
         .then((data) => {
-          console.log("this is data", data);
-          console.log("this is pro data title ", data[0].title);
+
           productItems.push({
             price_data: {
               currency: "USD",
@@ -40,12 +33,9 @@ const createCheckoutSessionservices = async (req, res) => {
         .catch((err) => {
           console.log("this is error", err);
         });
-      //productItems.push({title:productData.title, price:productData.price,quantity:product.quantity});
     }
     const user = await User.findOne({ _id: orders.user });
-    console.log(user.email);
-    //console.log(productItems)
-    // const stripe = Stripe(process.env.STRIPE_SECRET);
+
     const session = await stripe.checkout.sessions.create({
       line_items: productItems,
       mode: "payment",

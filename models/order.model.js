@@ -9,7 +9,23 @@ const orderSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    fName: {
+        type: String,
+        required: true
+    },
+    lName: {
+        type: String,
+        required: true
+    },
     city: {
+        type: String,
+        required: true
+    },
+    state: {
+        type: String,
+        required: true
+    },
+    zip: {
         type: String,
         required: true
     },
