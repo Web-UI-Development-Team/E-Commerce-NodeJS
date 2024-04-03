@@ -8,7 +8,7 @@ const {uploadUserImage, resizeImage} = require("../middleware/user-profile-image
 const admin = require("../middleware/admin.middleware");
 const paginate = require("../middleware/pagination.middleware");
 
-router.get("/", admin, paginate(2), controllers.getAllUsers);
+router.get("/", admin,  controllers.getAllUsers);
 
 router.get("/:id", admin, controllers.getUserById);
 
