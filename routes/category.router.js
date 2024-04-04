@@ -4,10 +4,13 @@ const router = express.Router();
 const controllers = require("../controllers/category.controller");
 const admin = require("../middleware/admin.middleware");
 
+const { uploadCatIcon, resizeImage } = require("../middleware/category-icon.middleware")
+
+
 router
   .route("/")
   .get(controllers.gellAllCategories)
-  .post(controllers.createCategory, admin);
+  .post(admin, uploadCatIcon, resizeImage, controllers.createCategory);
 
 router.route("/:id/products").get(controllers.getProductsByCategory);
 
