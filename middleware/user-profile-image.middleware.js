@@ -11,18 +11,23 @@ const uploadUserImage = uploadSingleImage("image");
 const resizeImage = async (req, res, next) => {
     const filename = `user-profile-${uuidv4()}.png`;
 
+    
     if (req.file) {
         const filePath = path.join(__dirname, '../images/user-profile/'); 
         await sharp(req.file.buffer)
-            .resize(500, 500)
-            .toFormat("png")
-            .png({ quality: 95 })
-            .toFile(filePath + filename);
-
-            console.log(filename)
-
+        .resize(500, 500)
+        .toFormat("png")
+        .png({ quality: 95 })
+        .toFile(filePath + filename);
+        
+        console.log(filename)
+        
         req.body.imagePath = process.env.IMAGEURL + '/images/user-profile/' + filename;// Use the relative path to the image
         console.log(req.body);
+    } else {
+        req.body.imagePath = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png';
+
+        delete req.body.image
     }
 
     next();

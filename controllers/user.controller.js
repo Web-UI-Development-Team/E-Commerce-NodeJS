@@ -17,7 +17,7 @@ const createNewUser = async (req, res) => {
   const user = await service.getUserService(email);
 
   if (user) {
-    return res.send({
+    return res.status(401).send({
       message: "this email already exist, please choose another email",
     });
   }
