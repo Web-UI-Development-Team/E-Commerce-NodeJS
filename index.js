@@ -32,6 +32,8 @@ const cartRouter = require("./routes/cart.router");
 
 const categoryRouter = require("./routes/category.router");
 
+const editRouter = require("./routes/edit.router");
+
 const reviewRouter = require("./routes/review.router");
 
 const ratingRouter = require("./routes/rating.router");
@@ -44,15 +46,15 @@ app.use('/images', express.static(path.join('images')))
 
 app.use("/api/v1/users", userRouter);
 
-app.use("/api/v1/products", productRouter);
+app.use("/api/v1/products", productRouter, reviewRouter, ratingRouter);
 
 app.use("/api/v1/categories", categoryRouter);
 
-app.use("/api/v1/products", reviewRouter, ratingRouter);
+app.use("/edit", editRouter);
 
 app.use(auth);
 
-app.use("/api/v1/profile", profileRouter);
+app.use("/api/v1/profile", profileRouter,);
 
 app.use("/api/v1/cart/", cartRouter);
 
