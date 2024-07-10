@@ -1,5 +1,5 @@
 require("dotenv").config();
-const sharp = require("sharp");
+// const sharp = require("sharp");
 const { v4: uuidv4 } = require("uuid");
 
 const { uploadMultipleImages } = require("./upload-image.middleware");
@@ -16,11 +16,11 @@ const resizeImages = async (req, res, next) => {
 
         if (req.files.productImages[i]) {
             const filePath = path.join(__dirname, '../images/product-images/');
-            await sharp(req.files.productImages[i].buffer)
-                .resize(700, 700)
-                .toFormat("png")
-                .png({ quality: 100 })
-                .toFile(filePath + filename);
+            // await sharp(req.files.productImages[i].buffer)
+            //     .resize(700, 700)
+            //     .toFormat("png")
+            //     .png({ quality: 100 })
+            //     .toFile(filePath + filename);
 
             console.log(req.body);
             if (i === 0) {
